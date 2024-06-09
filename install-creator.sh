@@ -42,9 +42,17 @@ function build_projects() {
 
 function create_command() {
     echo "Creating 'creator' command..."
-    COMMAND_CONTENT="#!/bin/bash\n\
-    cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &\n\
-    cd \"$INSTALL_DIR/backend\" && node dist/main.js &" 
+    COMMAND_CONTENT="#!/bin/bash
+
+    trap 'kill 0' SIGINT   # Add trap to handle SIGINT (Ctrl+C)
+
+    cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &
+    cd \"$INSTALL_DIR/backend\" && node dist/main.js &
+    
+    wait                 # Wait for both processes to finish
+    trap - SIGINT        # Reset the trap
+    "
+
     echo "$COMMAND_CONTENT" > /usr/local/bin/creator
     chmod +x /usr/local/bin/creator
     echo "'creator' command created."
@@ -68,8 +76,8 @@ if [ ! -d "$INSTALL_DIR" ]; then
   git clone "$BACKEND_REPO" "$INSTALL_DIR/backend" || print_error "Failed to clone backend repository"
 else
   echo "Directory '$INSTALL_DIR' already exists. Updating..."
-  cd "$INSTALL_DIR/frontend" && git pull origin main || print_error "Failed to update frontend"
-  cd "$INSTALL_DIR/backend" && git pull origin main || print_error "Failed to update backend"
+  cd "$INSTALL_DIR/frontend" && git pull || print_error "Failed to update frontend"
+  cd "$INSTALL_DIR/backend" && git pull || print_error "Failed to update backend"
 fi
 
 # Install Dependencies
