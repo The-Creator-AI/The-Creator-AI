@@ -44,29 +44,42 @@ function create_command() {
     echo "Creating 'creator' command..."
     COMMAND_CONTENT="#!/bin/bash
 
-    trap 'kill 0' SIGINT   # Add trap to handle SIGINT (Ctrl+C)
-
     export CUR_WRK_DIR=\$(readlink -f \${1:-\$(pwd)})
     echo Working Directory: \$CUR_WRK_DIR
 
-    cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &
-    FRONTEND_PID=\$!
-    cd \"$INSTALL_DIR/backend\" && node dist/main.js &
-    BACKEND_PID=\$!
+    # Check if the creator is already running
+    if pgrep -f \"node dist/main.js\" > /dev/null; then
+        echo \"creator is already running. Opening the app in a new tab...\"
+        # Use xdg-open, open, or sensible-browser based on availability
+        if command -v xdg-open > /dev/null; then
+            xdg-open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+        elif command -v open > /dev/null; then
+            open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+        elif command -v sensible-browser > /dev/null; then
+            sensible-browser \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+        else
+            echo \"Could not find a suitable command to open the browser.\"
+        fi
+    else 
+        echo \"Starting the backend and frontend...\"
+        cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &
+        FRONTEND_PID=\$!
+        cd \"$INSTALL_DIR/backend\" && node dist/main.js &
+        BACKEND_PID=\$!
 
-    # Use xdg-open, open, or sensible-browser based on availability
-    if command -v xdg-open > /dev/null; then
-        xdg-open \"http://localhost:$FRONTEND_PORT\" &
-    elif command -v open > /dev/null; then
-        open \"http://localhost:$FRONTEND_PORT\" &
-    elif command -v sensible-browser > /dev/null; then
-        sensible-browser \"http://localhost:$FRONTEND_PORT\" &
-    else
-        echo \"Could not find a suitable command to open the browser.\"
+        # Use xdg-open, open, or sensible-browser based on availability
+        if command -v xdg-open > /dev/null; then
+            xdg-open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+        elif command -v open > /dev/null; then
+            open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+        elif command -v sensible-browser > /dev/null; then
+            sensible-browser \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+        else
+            echo \"Could not find a suitable command to open the browser.\"
+        fi
+
+        wait \$FRONTEND_PID \$BACKEND_PID # Wait for both processes to finish
     fi
-
-    wait \$FRONTEND_PID \$BACKEND_PID # Wait for both processes to finish
-    trap - SIGINT        # Reset the trap
     "
 
     echo "$COMMAND_CONTENT" > /usr/local/bin/creator
