@@ -46,10 +46,11 @@ function create_command() {
 
     trap 'kill 0' SIGINT   # Add trap to handle SIGINT (Ctrl+C)
 
-    export WORKING_DIRECTORY=${1:-$(pwd)}
+    export CUR_WRK_DIR=\$(readlink -f \${1:-\$(pwd)})
+    echo Working Directory: \$CUR_WRK_DIR
 
     cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &
-    cd \"$INSTALL_DIR/backend\" && node dist/main.js "$WORKING_DIRECTORY" &
+    cd \"$INSTALL_DIR/backend\" && node dist/main.js &
     
     wait                 # Wait for both processes to finish
     trap - SIGINT        # Reset the trap
