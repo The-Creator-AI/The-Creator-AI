@@ -1,13 +1,14 @@
-# The Creator AI - README
+# The Creator AI
 
-Welcome to The Creator AI! This innovative tool empowers you to generate creative content. Follow these steps to get started:
+Welcome to The Creator AI! Talk to Gemini with context.
+
 
 ## Prerequisites
 
 Before installation, ensure you have the following software installed on your system:
 
 - **Git:** For cloning the project repositories.
-- **Node.js and npm (or yarn):** For managing and installing dependencies.
+- **Node.js and npm (or yarn):** For managing and installing dependencies. Ensure your node version is at least `18`.
 - **Serve:** For running the frontend in development mode. (If you don't have `serve` installed, run `npm install -g serve`) 
 
 ## Installation
@@ -35,9 +36,16 @@ This script will handle the following:
 
 ## Running The Creator AI
 Once the installation is complete, you can start The Creator AI by simply typing:
+1. Set Gemini API key
+```bash
+export GEMINI_API_KEY=...
+```
+
+2. Launch creator
 ```bash
 creator 
 ```
+
 This will launch both the frontend and backend, and open the application in your default web browser.
 
 ## Updating The Creator AI
