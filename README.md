@@ -43,10 +43,12 @@ export GEMINI_API_KEY=...
 
 2. Launch creator
 ```bash
-creator 
+creator .
 ```
 
-This will launch both the frontend and backend, and open the application in your default web browser.
+This will launch both the frontend and backend, and open the application in your default web browser.  
+
+**Note:** You can provide which directory to load as argument to creator command - `creator <directory>`
 
 ## Updating The Creator AI
 

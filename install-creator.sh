@@ -50,9 +50,22 @@ function create_command() {
     echo Working Directory: \$CUR_WRK_DIR
 
     cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &
+    FRONTEND_PID=\$!
     cd \"$INSTALL_DIR/backend\" && node dist/main.js &
-    
-    wait                 # Wait for both processes to finish
+    BACKEND_PID=\$!
+
+    # Use xdg-open, open, or sensible-browser based on availability
+    if command -v xdg-open > /dev/null; then
+        xdg-open \"http://localhost:$FRONTEND_PORT\" &
+    elif command -v open > /dev/null; then
+        open \"http://localhost:$FRONTEND_PORT\" &
+    elif command -v sensible-browser > /dev/null; then
+        sensible-browser \"http://localhost:$FRONTEND_PORT\" &
+    else
+        echo \"Could not find a suitable command to open the browser.\"
+    fi
+
+    wait \$FRONTEND_PID \$BACKEND_PID # Wait for both processes to finish
     trap - SIGINT        # Reset the trap
     "
 
