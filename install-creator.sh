@@ -7,7 +7,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 # --- Set Variables ---
-INSTALL_DIR="$HOME/creator-app"  
+INSTALL_DIR="$HOME/creator-app"
+COMMON_REPO="https://github.com/The-Creator-AI/fe-be-common.git" # New common repo
 FRONTEND_REPO="https://github.com/The-Creator-AI/frontend.git"
 BACKEND_REPO="https://github.com/The-Creator-AI/backend.git"
 FRONTEND_PORT=3001               
@@ -28,6 +29,7 @@ function check_dependency() {
 
 function install_dependencies() {
     echo "Installing dependencies..."
+    cd "$INSTALL_DIR/fe-be-common" && npm install > /dev/null 2>&1 || print_error "Failed to install common dependencies"
     cd "$INSTALL_DIR/frontend" && npm install > /dev/null 2>&1 || print_error "Failed to install frontend dependencies"
     cd "$INSTALL_DIR/backend" && npm install > /dev/null 2>&1 || print_error "Failed to install backend dependencies"
     echo "Dependencies installed."
@@ -35,6 +37,7 @@ function install_dependencies() {
 
 function build_projects() {
     echo "Building projects..."
+    cd "$INSTALL_DIR/fe-be-common" && npm run build > /dev/null 2>&1 || print_error "Failed to build common" 
     cd "$INSTALL_DIR/frontend" && npm run build > /dev/null 2>&1 || print_error "Failed to build frontend"
     cd "$INSTALL_DIR/backend" && npm run build > /dev/null 2>&1 || print_error "Failed to build backend"
     echo "Projects built."
@@ -98,15 +101,34 @@ check_dependency serve # Add serve as a dependency
 
 # --- Installation ---
 
+# --- Installation ---
 if [ ! -d "$INSTALL_DIR" ]; then
   echo "Cloning repositories..."
   mkdir -p "$INSTALL_DIR"
+  git clone "$COMMON_REPO" "$INSTALL_DIR/fe-be-common" || print_error "Failed to clone common repository"
   git clone "$FRONTEND_REPO" "$INSTALL_DIR/frontend" || print_error "Failed to clone frontend repository"
   git clone "$BACKEND_REPO" "$INSTALL_DIR/backend" || print_error "Failed to clone backend repository"
 else
   echo "Directory '$INSTALL_DIR' already exists. Updating..."
-  cd "$INSTALL_DIR/frontend" && git pull || print_error "Failed to update frontend"
-  cd "$INSTALL_DIR/backend" && git pull || print_error "Failed to update backend"
+  
+  # Check and update/clone each repo individually
+  if [ -d "$INSTALL_DIR/fe-be-common" ]; then
+    cd "$INSTALL_DIR/fe-be-common" && git pull || print_error "Failed to update common"
+  else 
+    git clone "$COMMON_REPO" "$INSTALL_DIR/fe-be-common" || print_error "Failed to clone common repository"
+  fi
+
+  if [ -d "$INSTALL_DIR/frontend" ]; then
+    cd "$INSTALL_DIR/frontend" && git pull || print_error "Failed to update frontend"
+  else
+    git clone "$FRONTEND_REPO" "$INSTALL_DIR/frontend" || print_error "Failed to clone frontend repository"
+  fi
+
+  if [ -d "$INSTALL_DIR/backend" ]; then
+    cd "$INSTALL_DIR/backend" && git pull || print_error "Failed to update backend"
+  else
+    git clone "$BACKEND_REPO" "$INSTALL_DIR/backend" || print_error "Failed to clone backend repository"
+  fi 
 fi
 
 # Install Dependencies

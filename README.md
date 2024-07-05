@@ -29,9 +29,9 @@ chmod +x install-creator.sh
 sudo ./install-creator.sh
 ```
 This script will handle the following:
-   - Clone the necessary repositories.
+   - Clone the necessary repositories ([frontend](https://github.com/The-Creator-AI/frontend), [backend](https://github.com/The-Creator-AI/backend), and [common](https://github.com/The-Creator-AI/fe-be-common)).
    - Install all dependencies.
-   - Build the frontend and backend projects.
+   - Build the common package & frontend and backend projects.
    - Create a convenient 'creator' command for launching the application.
 
 ## Running The Creator AI
