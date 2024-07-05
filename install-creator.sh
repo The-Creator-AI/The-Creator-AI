@@ -16,8 +16,8 @@ BACKEND_PORT=3000
 
 # --- Specify Tags for Each Repo ---
 COMMON_TAG="v0.1.1"
-FRONTEND_TAG="v0.1.0"
-BACKEND_TAG="v0.0.1"
+FRONTEND_TAG="v0.1.1"
+BACKEND_TAG="v0.1.1"
 
 # --- Functions ---
 
