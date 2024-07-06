@@ -26,7 +26,7 @@ chmod +x install-creator.sh
 ```
 3. **Run the install-creator.sh Script:**
 ```bash
-sudo ./install-creator.sh --tag v0.1.1
+sudo ./install-creator.sh --tag v0.2.0
 ```
 
 This script will handle the following:
@@ -56,7 +56,7 @@ This will launch both the frontend and backend, and open the application in your
 **Re-run the install-creator.sh Script:**
 
 ```bash
-sudo ./install-creator.sh --tag v0.1.1
+sudo ./install-creator.sh --tag v0.2.0
 ```
 This will update the repositories, install new dependencies (if any), and rebuild the project.
 
@@ -73,7 +73,7 @@ We welcome contributions from the community! If you'd like to help improve The C
 
 ## Release Notes
 
-### `v0.1.1` (Latest)
+### `v0.2.0` (Latest)
 
 - Using socket for live updates
 
