@@ -89,9 +89,9 @@ jobs:
 
       - name: Install dependencies (all projects)
         run: |
-          npm install --prefix fe-be-common
-          npm install --prefix frontend
-          npm install --prefix backend
+          npm install --prefix fe-be-common --force
+          npm install --prefix frontend --force
+          npm install --prefix backend --force
 
       - name: Build all projects
         run: |
