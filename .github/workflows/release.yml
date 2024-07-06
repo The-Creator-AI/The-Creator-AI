@@ -102,12 +102,26 @@ jobs:
           CI: ""
 
       # Release Step
+      - name: Generate release tag
+        id: tag
+        run: |
+          # 1. Get the custom tag from the workflow input
+          custom_tag="${{ github.event.inputs.tag }}"
+          # 2. Get the formatted date and time
+          datetime=$(date +"%Y.%m.%d_%H-%M")
+          # 3. Combine the custom tag and datetime 
+          release_tag="${custom_tag}_${datetime}"
+          # 4. Set the output variable (note the syntax correction)
+          echo "release_tag=${release_tag}" >> $GITHUB_OUTPUT
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
+          # Use the updated output variable
+          tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
             fe-be-common/build/**
             frontend/build/**
             backend/dist/** 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
