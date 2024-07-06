@@ -26,8 +26,9 @@ chmod +x install-creator.sh
 ```
 3. **Run the install-creator.sh Script:**
 ```bash
-sudo ./install-creator.sh
+sudo ./install-creator.sh --tag v0.1.1
 ```
+
 This script will handle the following:
    - Clone the necessary repositories ([frontend](https://github.com/The-Creator-AI/frontend), [backend](https://github.com/The-Creator-AI/backend), and [common](https://github.com/The-Creator-AI/fe-be-common)).
    - Install all dependencies.
@@ -55,7 +56,7 @@ This will launch both the frontend and backend, and open the application in your
 **Re-run the install-creator.sh Script:**
 
 ```bash
-sudo ./install-creator.sh
+sudo ./install-creator.sh --tag v0.1.1
 ```
 This will update the repositories, install new dependencies (if any), and rebuild the project.
 
@@ -69,3 +70,9 @@ If you encounter any issues during installation or usage, please refer to the fo
 ## Contributing
 
 We welcome contributions from the community! If you'd like to help improve The Creator AI, feel free to fork the repositories and submit pull requests. 
+
+## Release Notes
+
+### `v0.1.1` (Latest)
+
+- Using socket for live updates

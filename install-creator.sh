@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# --- Parse Command Line Arguments ---
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --tag)
+      TAG="$2"
+      shift 2
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+done
+
 # Check for root/sudo privileges (optional but recommended)
 if [[ $EUID -ne 0 ]]; then
   echo "This script requires sudo privileges. Please run again with 'sudo'."
@@ -13,11 +27,6 @@ FRONTEND_REPO="https://github.com/The-Creator-AI/frontend.git"
 BACKEND_REPO="https://github.com/The-Creator-AI/backend.git"
 FRONTEND_PORT=3001
 BACKEND_PORT=3000
-
-# --- Specify Tags for Each Repo ---
-COMMON_TAG="v0.1.1"
-FRONTEND_TAG="v0.1.1"
-BACKEND_TAG="v0.1.1"
 
 # --- Functions ---
 
@@ -95,26 +104,76 @@ function create_command() {
   echo "'creator' command created."
 }
 
-# --- Main Installation ---
+# --- Get Latest Release Tag ---
+function get_latest_release_tag() {
+    local repo_url="$1"
 
+    # Fetch tags, filter, sort, and get the latest
+    latest_tag=$(git ls-remote --tags --sort=v:refname "$repo_url" | 
+                 tail -n 1 | 
+                 sed -E 's/.*\/v(.*)/\1/')  # Updated sed pattern
+
+    # Robust tag cleanup
+    latest_tag=$(echo "$latest_tag" | sed -E 's/\^{}//') # Remove ^{} 
+    latest_tag=$(echo "$latest_tag" | sed -E 's/[^0-9.]//g') # Remove non-numeric characters
+
+    # Check if the cleaned tag matches the expected version format (optional)
+    if [[ ! "$latest_tag" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+        echo "Error: Unexpected tag format found: $latest_tag" >&2  # Send error to stderr
+        return 1  # Exit the function with an error code
+    fi
+
+    latest_tag="v$latest_tag"
+    echo "$latest_tag"
+}
+
+# --- Functions for Cloning and Updating Repositories ---
+function clone_repo() {
+  local tag="$1"
+  local repo_url="$2"
+  local target_dir="$3"
+
+  if [[ -z "$tag" ]]; then
+    # If no tag is provided, clone without specifying a branch or tag
+    git clone "$repo_url" "$target_dir" || print_error "Failed to clone $repo_url repository"
+  else
+    # If a tag is provided, clone with the specified tag
+    git clone -b "$tag" --single-branch --depth 1 "$repo_url" "$target_dir" || print_error "Failed to clone $repo_url repository with tag v$tag"
+  fi
+}
+
+function update_repo() {
+  local tag="$1"
+  local repo_dir="$2"
+
+  if [[ -z "$tag" ]]; then
+    # If no tag is provided, update to the latest commit
+    cd "$repo_dir" && git pull origin main || print_error "Failed to update $repo_dir repository"
+  else
+    # If a tag is provided, update to the specified tag
+    cd "$repo_dir" && git fetch --all --tags && git checkout tags/"$tag" || print_error "Failed to update $repo_dir repository to tag v$tag"
+  fi
+}
+
+# --- Main Installation ---
 echo "Welcome to the Creator AI installation!"
 
 # --- Check for Dependencies ---
 check_dependency git
 check_dependency npm
-check_dependency serve # Add serve as a dependency
+check_dependency serve 
 
-# --- Clone & pull ---
-# Pass three arguments - the tag, the repo, and the directory to clone to
-function clone_repo() {
-  git clone -b "$1" --single-branch --depth 1 "$2" "$3" || print_error "Failed to clone $2 repository"
-}
+# --- Get Latest Release Tags ---
+LATEST_COMMON_TAG=$(get_latest_release_tag "$COMMON_REPO")
+LATEST_FRONTEND_TAG=$(get_latest_release_tag "$FRONTEND_REPO")
+LATEST_BACKEND_TAG=$(get_latest_release_tag "$BACKEND_REPO")
 
-# Pass two arguments - the tag and the repo
-function update_repo() {
-  cd "$2" && git fetch --all --tags && git checkout tags/"$1" || print_error "Failed to update $2 repository"
-}
+# --- Use Latest Tags if User Doesn't Specify ---
+COMMON_TAG="${TAG:-$LATEST_COMMON_TAG}"
+FRONTEND_TAG="${TAG:-$LATEST_FRONTEND_TAG}"
+BACKEND_TAG="${TAG:-$LATEST_BACKEND_TAG}"
 
+# --- Clone or Update Repositories ---
 if [ ! -d "$INSTALL_DIR" ]; then
   echo "Cloning repositories..."
   mkdir -p "$INSTALL_DIR"
@@ -124,24 +183,9 @@ if [ ! -d "$INSTALL_DIR" ]; then
 else
   echo "Directory '$INSTALL_DIR' already exists. Updating..."
 
-  # Check and update/clone each repo individually
-  if [ -d "$INSTALL_DIR/fe-be-common" ]; then
-    update_repo "$COMMON_TAG" "$INSTALL_DIR/fe-be-common"
-  else
-    git clone "$COMMON_REPO" "$INSTALL_DIR/fe-be-common" || print_error "Failed to clone common repository"
-  fi
-
-  if [ -d "$INSTALL_DIR/frontend" ]; then
-    update_repo "$FRONTEND_TAG" "$INSTALL_DIR/frontend"
-  else
-    git clone "$FRONTEND_REPO" "$INSTALL_DIR/frontend" || print_error "Failed to clone frontend repository"
-  fi
-
-  if [ -d "$INSTALL_DIR/backend" ]; then
-    update_repo "$BACKEND_TAG" "$INSTALL_DIR/backend"
-  else
-    git clone "$BACKEND_REPO" "$INSTALL_DIR/backend" || print_error "Failed to clone backend repository"
-  fi
+  update_repo "$COMMON_TAG" "$INSTALL_DIR/fe-be-common"
+  update_repo "$FRONTEND_TAG" "$INSTALL_DIR/frontend"
+  update_repo "$BACKEND_TAG" "$INSTALL_DIR/backend"
 fi
 
 # Install Dependencies
@@ -153,4 +197,4 @@ build_projects
 # Create 'creator' Command
 create_command
 
-echo "Installation complete! Run 'creator' to start the application."
+echo "Installation complete! Run 'creator .' to start the application."
