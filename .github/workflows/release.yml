@@ -12,6 +12,7 @@ on:
 
 jobs:
   build-and-release:
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       # Cloning Steps
