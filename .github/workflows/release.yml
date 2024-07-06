@@ -88,19 +88,19 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install dependencies (all projects)
-        run: |
-          npm install --prefix fe-be-common --force
-          npm install --prefix frontend --force
-          npm install --prefix backend --force
+      # - name: Install dependencies (all projects)
+      #   run: |
+      #     npm install --prefix fe-be-common --force
+      #     npm install --prefix frontend --force
+      #     npm install --prefix backend --force
 
-      - name: Build all projects
-        run: |
-          npm run build --prefix fe-be-common
-          npm run build --prefix frontend
-          npm run build --prefix backend
-        env:
-          CI: ""
+      # - name: Build all projects
+      #   run: |
+      #     npm run build --prefix fe-be-common
+      #     npm run build --prefix frontend
+      #     npm run build --prefix backend
+      #   env:
+      #     CI: ""
 
       # Release Step
       - name: Generate release tag
@@ -120,9 +120,9 @@ jobs:
           # Use the updated output variable
           tag_name: ${{ steps.tag.outputs.release_tag }}
           files: |
-            fe-be-common/build/**
-            frontend/build/**
-            backend/dist/** 
+            fe-be-common/**
+            frontend/**
+            backend/** 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
