@@ -76,3 +76,7 @@ We welcome contributions from the community! If you'd like to help improve The C
 ### `v0.1.1` (Latest)
 
 - Using socket for live updates
+
+### `v0.1.0` (Latest)
+
+- Initial release

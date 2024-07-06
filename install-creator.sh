@@ -138,7 +138,7 @@ function clone_repo() {
     git clone "$repo_url" "$target_dir" || print_error "Failed to clone $repo_url repository"
   else
     # If a tag is provided, clone with the specified tag
-    git clone -b "$tag" --single-branch --depth 1 "$repo_url" "$target_dir" || print_error "Failed to clone $repo_url repository with tag v$tag"
+    git clone -b "$tag" --single-branch --depth 1 "$repo_url" "$target_dir" || print_error "Failed to clone $repo_url repository with tag $tag"
   fi
 }
 
@@ -146,12 +146,16 @@ function update_repo() {
   local tag="$1"
   local repo_dir="$2"
 
+  cd "$repo_dir" || print_error "Could not cd into $repo_dir"
+
   if [[ -z "$tag" ]]; then
     # If no tag is provided, update to the latest commit
-    cd "$repo_dir" && git pull origin main || print_error "Failed to update $repo_dir repository"
+    git pull origin main || print_error "Failed to update $repo_dir repository"
   else
-    # If a tag is provided, update to the specified tag
-    cd "$repo_dir" && git fetch --all --tags && git checkout tags/"$tag" || print_error "Failed to update $repo_dir repository to tag v$tag"
+    # Delete all local tags
+    git tag -l | xargs git tag -d
+    git fetch --all --tags || print_error "Failed to fetch tags for $repo_dir"
+    git checkout --force "tags/$tag" || print_error "Failed to checkout tag $tag in $repo_dir"
   fi
 }
 
