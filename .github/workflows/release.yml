@@ -34,27 +34,48 @@ jobs:
         with:
           repository: The-Creator-AI/fe-be-common
           path: fe-be-common
-          ref: ${{ github.event.inputs.tag || github.ref_name }} # Use input or pushed tag
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 1
+      - name: Fetch tags
+        run: |
+          cd fe-be-common
+          git fetch --all --tags
+      - name: Checkout Tag
+        run: |
+          cd fe-be-common
+          git checkout ${{ github.event.inputs.tag }}
 
       - name: Clone and Checkout Tag (frontend)
         uses: actions/checkout@v3
         with:
           repository: The-Creator-AI/frontend
           path: frontend
-          ref: ${{ github.event.inputs.tag || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 1
+      - name: Fetch tags
+        run: |
+          cd frontend
+          git fetch --all --tags
+      - name: Checkout Tag
+        run: |
+          cd frontend
+          git checkout ${{ github.event.inputs.tag }}
 
       - name: Clone and Checkout Tag (backend)
         uses: actions/checkout@v3
         with:
           repository: The-Creator-AI/backend
           path: backend
-          ref: ${{ github.event.inputs.tag || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 1
+      - name: Fetch tags
+        run: |
+          cd backend
+          git fetch --all --tags
+      - name: Checkout Tag
+        run: |
+          cd backend
+          git checkout ${{ github.event.inputs.tag }}
 
       # Build Steps (Same as before)
       - name: Setup Node.js
