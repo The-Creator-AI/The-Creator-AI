@@ -4,54 +4,83 @@ on:
   push:
     tags:
       - 'v*' # Trigger on tags starting with 'v' (e.g., v1.0.0)
-
-  workflow_dispatch:
+  workflow_dispatch: # Allow manual triggering
+    inputs:
+      tag:
+        description: 'Release Tag'
+        required: true
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      # Cloning Steps
+      - name: Checkout Main Repository
         uses: actions/checkout@v3
 
+      - name: Clone fe-be-common
+        uses: actions/checkout@v3
+        with:
+          repository: The-Creator-AI/fe-be-common  # Replace with the actual repository
+          path: fe-be-common                 
+          token: ${{ secrets.GITHUB_TOKEN }} # Use a personal access token with repo scope
+      - name: Fetch tags
+        run: |
+          cd fe-be-common
+          git fetch --all --tags
+
+      - name: Clone and Checkout Tag (fe-be-common)
+        uses: actions/checkout@v3
+        with:
+          repository: The-Creator-AI/fe-be-common
+          path: fe-be-common
+          ref: ${{ github.event.inputs.tag || github.ref_name }} # Use input or pushed tag
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Clone and Checkout Tag (frontend)
+        uses: actions/checkout@v3
+        with:
+          repository: The-Creator-AI/frontend
+          path: frontend
+          ref: ${{ github.event.inputs.tag || github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Clone and Checkout Tag (backend)
+        uses: actions/checkout@v3
+        with:
+          repository: The-Creator-AI/backend
+          path: backend
+          ref: ${{ github.event.inputs.tag || github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      # Build Steps (Same as before)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Replace with your desired Node.js version
+          node-version: '18'
 
-      - name: Install dependencies (common)
-        working-directory: ./fe-be-common
-        run: npm install
-
-      - name: Build common package
-        working-directory: ./fe-be-common
-        run: npm run build
-
-      - name: Install dependencies (frontend)
-        working-directory: ./frontend
-        run: npm install
-
-      - name: Build frontend
-        working-directory: ./frontend
-        run: npm run build 
-
-      - name: Install dependencies (backend)
-        working-directory: ./backend
-        run: npm install
-
-      - name: Build backend
-        working-directory: ./backend
-        run: npm run build
-
-      - name: Create release zip
+      - name: Install dependencies (all projects)
         run: |
-          mkdir release
-          cp -r frontend/build release/frontend
-          cp -r backend/dist release/backend 
-          zip -r creator-ai-${{ github.ref_name }}.zip release
+          npm install --prefix fe-be-common
+          npm install --prefix frontend
+          npm install --prefix backend
+
+      - name: Build all projects
+        run: |
+          npm run build --prefix fe-be-common
+          npm run build --prefix frontend
+          npm run build --prefix backend
+
+      # Release Step
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: creator-ai-${{ github.ref_name }}.zip
+          files: |
+            fe-be-common/build/**
+            frontend/build/**
+            backend/dist/** 
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
