@@ -1,0 +1,55 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on tags starting with 'v' (e.g., v1.0.0)
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Replace with your desired Node.js version
+
+      - name: Install dependencies (common)
+        working-directory: ./fe-be-common
+        run: npm install
+
+      - name: Build common package
+        working-directory: ./fe-be-common
+        run: npm run build
+
+      - name: Install dependencies (frontend)
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build 
+
+      - name: Install dependencies (backend)
+        working-directory: ./backend
+        run: npm install
+
+      - name: Build backend
+        working-directory: ./backend
+        run: npm run build
+
+      - name: Create release zip
+        run: |
+          mkdir release
+          cp -r frontend/build release/frontend
+          cp -r backend/dist release/backend 
+          zip -r creator-ai-${{ github.ref_name }}.zip release
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: creator-ai-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
