@@ -13,20 +13,20 @@ Before installation, ensure you have the following software installed on your sy
 
 ## Installation
 
-1. **Download the install-creator.sh script** 
+1. **Download the clone.sh script** 
 
 ```bash
-curl -O https://raw.githubusercontent.com/The-Creator-AI/The-Creator-AI/main/install-creator.sh
+curl -O https://raw.githubusercontent.com/The-Creator-AI/The-Creator-AI/main/clone.sh
 ```
 
-2. **Make install-creator.sh executable** 
+2. **Make clone.sh executable** 
 
 ```bash
-chmod +x install-creator.sh
+chmod +x clone.sh
 ```
-3. **Run the install-creator.sh Script:**
+3. **Run the clone.sh Script:**
 ```bash
-sudo ./install-creator.sh --tag v0.2.0
+sudo ./clone.sh --tag v0.2.0
 ```
 
 This script will handle the following:
@@ -53,10 +53,10 @@ This will launch both the frontend and backend, and open the application in your
 
 ## Updating The Creator AI
 
-**Re-run the install-creator.sh Script:**
+**Re-run the clone.sh Script:**
 
 ```bash
-sudo ./install-creator.sh --tag v0.2.0
+sudo ./clone.sh --tag v0.2.0
 ```
 This will update the repositories, install new dependencies (if any), and rebuild the project.
 

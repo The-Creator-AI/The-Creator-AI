@@ -187,9 +187,24 @@ if [ ! -d "$INSTALL_DIR" ]; then
 else
   echo "Directory '$INSTALL_DIR' already exists. Updating..."
 
-  update_repo "$COMMON_TAG" "$INSTALL_DIR/fe-be-common"
-  update_repo "$FRONTEND_TAG" "$INSTALL_DIR/frontend"
-  update_repo "$BACKEND_TAG" "$INSTALL_DIR/backend"
+  # If the directory exists, update the repositories otherwise clone them
+  if [ -d "$INSTALL_DIR/fe-be-common" ]; then
+    update_repo "$COMMON_TAG" "$INSTALL_DIR/fe-be-common"
+  else
+    clone_repo "$COMMON_TAG" "$COMMON_REPO" "$INSTALL_DIR/fe-be-common"
+  fi
+
+  if [ -d "$INSTALL_DIR/frontend" ]; then
+    update_repo "$FRONTEND_TAG" "$INSTALL_DIR/frontend"
+  else
+    clone_repo "$FRONTEND_TAG" "$FRONTEND_REPO" "$INSTALL_DIR/frontend"
+  fi  
+
+  if [ -d "$INSTALL_DIR/backend" ]; then
+    update_repo "$BACKEND_TAG" "$INSTALL_DIR/backend"
+  else
+    clone_repo "$BACKEND_TAG" "$BACKEND_REPO" "$INSTALL_DIR/backend"
+  fi
 fi
 
 # Install Dependencies
