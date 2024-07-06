@@ -28,6 +28,10 @@ jobs:
         run: |
           cd fe-be-common
           git fetch --all --tags
+      - name: Checkout Tag
+        run: |
+          cd fe-be-common
+          git checkout ${{ github.event.inputs.tag }}
 
       - name: Clone and Checkout Tag (fe-be-common)
         uses: actions/checkout@v3
