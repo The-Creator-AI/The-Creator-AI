@@ -98,6 +98,8 @@ jobs:
           npm run build --prefix fe-be-common
           npm run build --prefix frontend
           npm run build --prefix backend
+        env:
+          CI: ""
 
       # Release Step
       - name: Create Release
