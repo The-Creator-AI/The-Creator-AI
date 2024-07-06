@@ -109,17 +109,28 @@ jobs:
           zip -r frontend.zip frontend/build -x ".git/*" ".github/*"
           rm -rf backend.zip
           zip -r backend.zip backend/dist -x ".git/*" ".github/*"
-      - name: Generate release tag
+      - name: Generate or use existing release tag
         id: tag
         run: |
           # 1. Get the custom tag from the workflow input
           custom_tag="${{ github.event.inputs.tag }}"
-          # 2. Get the formatted date and time
-          datetime=$(date +"%Y.%m.%d_%H-%M")
-          # 3. Combine the custom tag and datetime 
-          release_tag="${custom_tag}_${datetime}"
+          
+          # 2. Check if the commit already has a tag starting with 'custom_tag'
+          existing_tag=$(git tag --points-at HEAD | grep "^${custom_tag}")
+      
+          # 3. If an existing tag is found, use it; otherwise, generate a new one
+          if [ -n "$existing_tag" ]; then
+            release_tag=$existing_tag
+            echo "Using existing tag: $release_tag"
+          else
+            # Get the formatted date and time
+            datetime=$(date +"%Y.%m.%d_%H-%M")
+            # Combine the custom tag and datetime 
+            release_tag="${custom_tag}_${datetime}"
+            echo "Generating new tag: $release_tag"
+          fi
           # 4. Set the output variable (note the syntax correction)
-          echo "release_tag=${release_tag}" >> $GITHUB_OUTPUT
+          echo "release_tag=$release_tag" >> $GITHUB_OUTPUT        
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
