@@ -103,6 +103,12 @@ jobs:
       #     CI: ""
 
       # Release Step
+      - name: Zip the builds
+        run: |
+          rm -rf frontend.zip
+          zip -r frontend.zip frontend -x ".git/*" ".github/*"
+          rm -rf backend.zip
+          zip -r backend.zip backend -x ".git/*" ".github/*"
       - name: Generate release tag
         id: tag
         run: |
@@ -119,10 +125,12 @@ jobs:
         with:
           # Use the updated output variable
           tag_name: ${{ steps.tag.outputs.release_tag }}
+          # fe-be-common/build/**
+          # frontend/build/**
+          # backend/dist/** 
           files: |
-            fe-be-common/**
-            frontend/**
-            backend/** 
+            frontend.zip
+            backend.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
