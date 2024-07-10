@@ -13,6 +13,8 @@ Before installation, ensure you have the following software installed on your sy
 
 ## Installation
 
+It's a **self hosted** web app. Below are the steps to get started -
+
 1. **Download the clone.sh script** 
 
 ```bash
