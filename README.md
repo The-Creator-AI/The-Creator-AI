@@ -26,7 +26,7 @@ chmod +x clone.sh
 ```
 3. **Run the clone.sh Script:**
 ```bash
-sudo ./clone.sh --tag v0.2.0
+sudo ./clone.sh --tag v0.3.0
 ```
 
 This script will handle the following:
@@ -56,7 +56,7 @@ This will launch both the frontend and backend, and open the application in your
 **Re-run the clone.sh Script:**
 
 ```bash
-sudo ./clone.sh --tag v0.2.0
+sudo ./clone.sh --tag v0.3.0
 ```
 This will update the repositories, install new dependencies (if any), and rebuild the project.
 
@@ -73,7 +73,11 @@ We welcome contributions from the community! If you'd like to help improve The C
 
 ## Release Notes
 
-### `v0.2.0` (Latest)
+### `v0.3.0`
+
+- Updated design
+
+### `v0.2.0`
 
 - Using socket for live updates
 
