@@ -2,6 +2,8 @@
 
 Welcome to The Creator AI! Talk to Gemini with context.
 
+<img width="1440" alt="image" src="https://github.com/user-attachments/assets/0aea7cf3-54a6-49a9-b5c4-43ee6987c93c">
+
 
 ## Prerequisites
 
