@@ -64,6 +64,50 @@ sudo ./clone.sh --tag v0.3.0
 ```
 This will update the repositories, install new dependencies (if any), and rebuild the project.
 
+## Install Manually
+The `clone.sh` script is only tested on Mac so far, will be testing & supporting other platforms with time.
+Meanwhile, you can follow these steps to get the setup ready manually -
+
+### Step 1: Clone the Repositories
+
+   ```
+   git clone https://github.com/The-Creator-AI/fe-be-common.git
+   git clone https://github.com/The-Creator-AI/frontend.git
+   git clone https://github.com/The-Creator-AI/backend.git
+   ```
+
+### Step 2: Build & Run
+
+1. Install common dependencies:
+   ```
+   cd ./fe-be-common       # <-----------------  Dependency for frontend & backend both, must be kept adjacent to those
+   npm install
+   npm run build           
+   ```
+2. Install backend dependencies:
+   ```
+   cd ./backend
+   npm install
+   npm run build
+   node dist/main.js       # <-----------------   BACKEND
+   ```
+3. Install frontend dependencies:
+   ```
+   cd ./frontend
+   npm install
+   npm run build
+   cd build
+   serve -s                # <-----------------   FRONTEND
+   ```
+
+### Releases
+The steps above run the latest code. To run a specific release, checkout the tag for that release (in every repo).
+Latest stable tag is `v0.3.0`.
+```
+git fetch --all --tags
+git checkout --force "tags/v0.3.0"
+```
+
 ## Troubleshooting
 
 If you encounter any issues during installation or usage, please refer to the following:
