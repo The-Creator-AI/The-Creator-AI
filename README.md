@@ -89,6 +89,7 @@ Meanwhile, you can follow these steps to get the setup ready manually -
    cd ./backend
    npm install
    npm run build
+   export GEMINI_API_KEY=...
    node dist/main.js       # <-----------------   BACKEND
    ```
 3. Install frontend dependencies:
