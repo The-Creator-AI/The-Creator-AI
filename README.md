@@ -46,9 +46,9 @@ This script will handle the following:
 
 ## Running The Creator AI
 Once the installation is complete, you can start The Creator AI by simply typing:
-1. Set Gemini API key
+1. Set Gemini API key/OPENAI_API_KEY
 ```bash
-export GEMINI_API_KEY=...
+export GEMINI_API_KEY=... # export OPENAI_API_KEY=...
 ```
 
 2. Launch creator
@@ -84,21 +84,21 @@ Meanwhile, you can follow these steps to get the setup ready manually -
 ### Step 2: Build & Run
 
 1. Install common dependencies:
-   ```
+   ```bash
    cd ./fe-be-common       # <-----------------  Dependency for frontend & backend both, must be kept adjacent to those
    npm install
    npm run build           
    ```
 2. Install backend dependencies:
-   ```
+   ```bash
    cd ./backend
    npm install
    npm run build
-   export GEMINI_API_KEY=...
+   export GEMINI_API_KEY=... # export OPENAI_API_KEY=...
    node dist/main.js       # <-----------------   BACKEND
    ```
 3. Install frontend dependencies:
-   ```
+   ```bash
    cd ./frontend
    npm install
    npm run build
