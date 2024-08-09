@@ -1,6 +1,11 @@
-# The Creator AI
 
-Welcome to The Creator AI!  
+<p align="center">
+	<img width="110" src="https://github.com/user-attachments/assets/c1847da8-64f1-4d44-bb70-f4211cb3744f](https://github.com/user-attachments/assets/ecb8456d-cb3a-40d4-8eea-223287412f6a">
+</p>
+<h1 align="center">
+	The Creator AI
+</h1>
+
 Talk to LLMs with easy code context. Choose files through UI.
 
 <img width="1440" alt="image" src="https://github.com/user-attachments/assets/0aea7cf3-54a6-49a9-b5c4-43ee6987c93c">
