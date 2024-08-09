@@ -8,7 +8,7 @@
 
 Talk to LLMs with easy code context. Choose files through UI.
 
-![demo](./demo.mov)
+<img src="./demo.gif" width="1400" />
 
 ## Prerequisites
 
