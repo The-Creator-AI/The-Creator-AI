@@ -8,8 +8,7 @@
 
 Talk to LLMs with easy code context. Choose files through UI.
 
-<img width="1440" alt="image" src="https://github.com/user-attachments/assets/0aea7cf3-54a6-49a9-b5c4-43ee6987c93c">
-
+![demo](./demo.mov)
 
 ## Prerequisites
 
