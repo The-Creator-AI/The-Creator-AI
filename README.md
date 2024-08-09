@@ -46,7 +46,7 @@ This script will handle the following:
 
 ## Running The Creator AI
 Once the installation is complete, you can start The Creator AI by simply typing:
-1. Set Gemini API key/OPENAI_API_KEY
+1. Set Gemini API key/OpenAI API key
 ```bash
 export GEMINI_API_KEY=... # export OPENAI_API_KEY=...
 ```
