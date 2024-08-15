@@ -25,8 +25,8 @@ INSTALL_DIR="$HOME/creator-app"
 COMMON_REPO="https://github.com/The-Creator-AI/fe-be-common.git" # New common repo
 FRONTEND_REPO="https://github.com/The-Creator-AI/frontend.git"
 BACKEND_REPO="https://github.com/The-Creator-AI/backend.git"
-FRONTEND_PORT=3001
-BACKEND_PORT=3000
+FRONTEND_PORT=7980
+BACKEND_PORT=7979
 
 # --- Functions ---
 
@@ -52,7 +52,7 @@ function install_dependencies() {
 function build_projects() {
   echo "Building projects..."
   cd "$INSTALL_DIR/fe-be-common" && npm run build >/dev/null 2>&1 || print_error "Failed to build common"
-  cd "$INSTALL_DIR/frontend" && npm run build >/dev/null 2>&1 || print_error "Failed to build frontend"
+  cd "$INSTALL_DIR/frontend" &&  REACT_APP_BACKEND_PORT=$BACKEND_PORT npm run build >/dev/null 2>&1 || print_error "Failed to build frontend"
   cd "$INSTALL_DIR/backend" && npm run build >/dev/null 2>&1 || print_error "Failed to build backend"
   echo "Projects built."
 }
@@ -61,8 +61,8 @@ function create_command() {
   echo "Creating 'creator' command..."
   COMMAND_CONTENT="#!/bin/bash
     # Default ports
-    DEFAULT_FRONTEND_PORT=3001
-    DEFAULT_BACKEND_PORT=3000
+    DEFAULT_FRONTEND_PORT=$FRONTEND_PORT
+    DEFAULT_BACKEND_PORT=$BACKEND_PORT
 
     # Parse command line arguments
     while [[ \$# -gt 0 ]]; do
@@ -123,7 +123,7 @@ function create_command() {
         fi
     else 
         echo \"Starting the backend and frontend...\"
-        cd \"$INSTALL_DIR/frontend/build\" && PORT=\$FRONTEND_PORT BACKEND_PORT=\$BACKEND_PORT serve -s &
+        cd \"$INSTALL_DIR/frontend/build\" && PORT=\$FRONTEND_PORT serve -s &
         FRONTEND_PID=\$!
         cd \"$INSTALL_DIR/backend\" && PORT=\$BACKEND_PORT node dist/main.js &
         BACKEND_PID=\$!
