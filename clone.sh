@@ -134,7 +134,7 @@ function clone_repo() {
   local target_dir="$3"
 
   if [[ -z "$tag" ]]; then
-    # If no tag is provided, clone without specifying a branch or tag
+    # If no tag is provided, clone the default branch
     git clone "$repo_url" "$target_dir" || print_error "Failed to clone $repo_url repository"
   else
     # If a tag is provided, clone with the specified tag
@@ -149,8 +149,10 @@ function update_repo() {
   cd "$repo_dir" || print_error "Could not cd into $repo_dir"
 
   if [[ -z "$tag" ]]; then
-    # If no tag is provided, update to the latest commit
-    git pull origin main || print_error "Failed to update $repo_dir repository"
+    # If no tag is provided, update to the latest commit on the default branch
+    git fetch origin || print_error "Failed to fetch updates for $repo_dir"
+    git checkout $(git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@') || print_error "Failed to checkout default branch in $repo_dir"
+    git pull || print_error "Failed to pull latest changes in $repo_dir"
   else
     # Delete all local tags
     git tag -l | xargs git tag -d
