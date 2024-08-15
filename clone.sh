@@ -60,37 +60,81 @@ function build_projects() {
 function create_command() {
   echo "Creating 'creator' command..."
   COMMAND_CONTENT="#!/bin/bash
+    # Default ports
+    DEFAULT_FRONTEND_PORT=3001
+    DEFAULT_BACKEND_PORT=3000
 
-    export CUR_WRK_DIR=\$(readlink -f \${1:-\$(pwd)})
-    echo Working Directory: \$CUR_WRK_DIR
+    # Parse command line arguments
+    while [[ \$# -gt 0 ]]; do
+        case \"\$1\" in
+            --shutdown)
+                SHUTDOWN=true
+                shift
+                ;;
+            --frontend-port)
+                FRONTEND_PORT=\"\$2\"
+                shift 2
+                ;;
+            --backend-port)
+                BACKEND_PORT=\"\$2\"
+                shift 2
+                ;;
+            *)
+                CUR_WRK_DIR=\$(readlink -f \"\$1\")
+                shift
+                ;;
+        esac
+    done
+
+    # Set default working directory if not provided
+    CUR_WRK_DIR=\${CUR_WRK_DIR:-\$(pwd)}
+    echo \"Working Directory: \$CUR_WRK_DIR\"
+
+    # Set default ports if not provided
+    FRONTEND_PORT=\${FRONTEND_PORT:-\$DEFAULT_FRONTEND_PORT}
+    BACKEND_PORT=\${BACKEND_PORT:-\$DEFAULT_BACKEND_PORT}
+
+    # Function to shutdown the application
+    shutdown_app() {
+        echo \"Shutting down the application...\"
+        pkill -f \"node dist/main.js\"
+        pkill -f \"serve -s.*:\$FRONTEND_PORT\"
+        echo \"Application shut down successfully.\"
+        exit 0
+    }
+
+    # Check if shutdown flag is set
+    if [ \"\$SHUTDOWN\" = true ]; then
+        shutdown_app
+    fi
 
     # Check if the creator is already running
     if pgrep -f \"node dist/main.js\" > /dev/null; then
         echo \"creator is already running. Opening the app in a new tab...\"
         # Use xdg-open, open, or sensible-browser based on availability
         if command -v xdg-open > /dev/null; then
-            xdg-open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+            xdg-open \"http://localhost:\$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
         elif command -v open > /dev/null; then
-            open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+            open \"http://localhost:\$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
         elif command -v sensible-browser > /dev/null; then
-            sensible-browser \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+            sensible-browser \"http://localhost:\$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
         else
             echo \"Could not find a suitable command to open the browser.\"
         fi
     else 
         echo \"Starting the backend and frontend...\"
-        cd \"$INSTALL_DIR/frontend/build\" && PORT=$FRONTEND_PORT serve -s  &
+        cd \"$INSTALL_DIR/frontend/build\" && PORT=\$FRONTEND_PORT BACKEND_PORT=\$BACKEND_PORT serve -s &
         FRONTEND_PID=\$!
-        cd \"$INSTALL_DIR/backend\" && node dist/main.js &
+        cd \"$INSTALL_DIR/backend\" && PORT=\$BACKEND_PORT node dist/main.js &
         BACKEND_PID=\$!
 
         # Use xdg-open, open, or sensible-browser based on availability
         if command -v xdg-open > /dev/null; then
-            xdg-open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+            xdg-open \"http://localhost:\$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
         elif command -v open > /dev/null; then
-            open \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+            open \"http://localhost:\$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
         elif command -v sensible-browser > /dev/null; then
-            sensible-browser \"http://localhost:$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
+            sensible-browser \"http://localhost:\$FRONTEND_PORT/?path=\$CUR_WRK_DIR\" &
         else
             echo \"Could not find a suitable command to open the browser.\"
         fi
