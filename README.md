@@ -1,6 +1,6 @@
 
 <p align="center">
-	<img width="110" src="https://github.com/user-attachments/assets/c1847da8-64f1-4d44-bb70-f4211cb3744f](https://github.com/user-attachments/assets/ecb8456d-cb3a-40d4-8eea-223287412f6a">
+	<img width="110" src="https://github.com/user-attachments/assets/c7164465-bfff-4c5a-83d9-482b7c182d39">
 </p>
 <h1 align="center">
 	The Creator AI
