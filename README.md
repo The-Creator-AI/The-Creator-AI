@@ -1,7 +1,3 @@
-
-<p align="center">
-	<img width="110" src="https://github.com/user-attachments/assets/c7164465-bfff-4c5a-83d9-482b7c182d39">
-</p>
 <h1 align="center">
 	The Creator AI
 </h1>
