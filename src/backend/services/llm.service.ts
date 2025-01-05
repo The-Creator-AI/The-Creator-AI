@@ -20,8 +20,7 @@ export class LlmService {
   private geminiFlashModel: string = "gemini-1.5-flash-latest";
   private geminiFlash2Model: string = "models/gemini-2.0-flash-exp";
   private openaiModel: string = "gpt-3.5-turbo";
-
-  private currentModel: string = this.geminiFlash2Model;
+  private currentModel: string = this.geminiFlash2Model; 
 
   constructor(
     @Inject(CreatorService) private readonly creatorService: CreatorService,
@@ -138,24 +137,16 @@ ${fileContents[filePath]}
       } catch (e: any) {
         debounce += 5000;
         // Handle specific errors based on error type and status
-        if (e.status === 429 && this.currentModel === this.geminiProModel) {
+        if (e.status === 429) {
           if (currentKeyIndex < apiKeys.length - 1) {
             // Pro model rate limit reached, try with the next key
             currentKeyIndex++;
             console.log(
-              `${this.geminiProModel} limit reached for key ${
+              `${this.currentModel} limit reached for key ${
                 apiKeys[currentKeyIndex - 1]
-              }, trying with key ${apiKeys[currentKeyIndex]}`
+              }, trying with key ${apiKeys[currentKeyIndex]} `
             );
             continue; // Retry with the next key
-          } else {
-            // All keys for Pro model exhausted, switch to Flash model
-            this.currentModel = this.geminiFlashModel;
-            currentKeyIndex = 0; // Reset key index for Flash model
-            console.log(
-              `${this.geminiProModel} limit reached for all keys, trying with ${this.geminiFlashModel}`
-            );
-            continue; // Retry with Flash model
           }
         } else {
           // For other errors, log the error and potentially throw or handle differently
