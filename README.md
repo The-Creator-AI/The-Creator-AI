@@ -1,4 +1,4 @@
-# Creator AI
+# The Creator AI
 
 This extension integrates a coding assistant directly into your VS Code environment.
 
