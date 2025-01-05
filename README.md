@@ -1,136 +1,52 @@
-<h1 align="center">
-	The Creator AI
-</h1>
+# Creator AI Extension
 
-Talk to LLMs with easy code context. Choose files through UI.
+This extension integrates a coding assistant directly into your VS Code environment.
 
-<img src="./demo.gif" width="1400" />
+## Features
 
-## Prerequisites
+* **Chat View:** Interact with the AI in a conversational format, ask questions, and get code suggestions.
+* **Change Plan View:** Describe code changes you'd like to plan, and the AI will generate a plan for implementation.
+* **File Explorer View:** View and select files from your workspace for context-aware code generation.
 
-Before installation, ensure you have the following software installed on your system:
+## Requirements
 
-- **Git:** For cloning the project repositories.
-- **Node.js and npm (or yarn):** For managing and installing dependencies. Ensure your node version is at least `18`.
-- **Serve:** For running the frontend in development mode. (If you don't have `serve` installed, run `npm install -g serve`) 
+This extension requires an API key for either Gemini or OpenAI. You'll be prompted to enter your key when you first use the extension.
 
-## Installation
+## Extension Settings
 
-It's a **self hosted** web app. Below are the steps to get started -
+This extension contributes the following settings:
 
-1. **Download the clone.sh script** 
+* `creatorExtension.llmRepository`: Stores API keys for LLM services (Gemini, OpenAI).
+* `creatorExtension.chatRepository`: Stores chat history and active chat information.
 
-```bash
-curl -O https://raw.githubusercontent.com/The-Creator-AI/The-Creator-AI/main/clone.sh
-```
+## Known Issues
 
-2. **Make clone.sh executable** 
-
-```bash
-chmod +x clone.sh
-```
-3. **Run the clone.sh Script:**
-```bash
-sudo ./clone.sh --tag v0.3.0
-```
-
-This script will handle the following:
-   - Clone the necessary repositories ([frontend](https://github.com/The-Creator-AI/frontend), [backend](https://github.com/The-Creator-AI/backend), and [common](https://github.com/The-Creator-AI/fe-be-common)).
-   - Install all dependencies.
-   - Build the common package & frontend and backend projects.
-   - Create a convenient 'creator' command for launching the application.
-
-## Running The Creator AI
-Once the installation is complete, you can start The Creator AI by simply typing:
-1. Set Gemini API key/OpenAI API key
-```bash
-export GEMINI_API_KEY=... # export OPENAI_API_KEY=...
-```
-
-2. Launch creator
-```bash
-creator .
-```
-
-This will launch both the frontend and backend, and open the application in your default web browser.  
-
-**Note:** You can provide which directory to load as argument to creator command - `creator <directory>`
-
-## Updating The Creator AI
-
-**Re-run the clone.sh Script:**
-
-```bash
-sudo ./clone.sh --tag v0.3.0
-```
-This will update the repositories, install new dependencies (if any), and rebuild the project.
-
-## Install Manually
-The `clone.sh` script is only tested on Mac so far, will be testing & supporting other platforms with time.
-Meanwhile, you can follow these steps to get the setup ready manually -
-
-### Step 1: Clone the Repositories
-
-   ```
-   git clone https://github.com/The-Creator-AI/fe-be-common.git
-   git clone https://github.com/The-Creator-AI/frontend.git
-   git clone https://github.com/The-Creator-AI/backend.git
-   ```
-
-### Step 2: Build & Run
-
-1. Install common dependencies:
-   ```bash
-   cd ./fe-be-common       # <-----------------  Dependency for frontend & backend both, must be kept adjacent to those
-   npm install
-   npm run build           
-   ```
-2. Install backend dependencies:
-   ```bash
-   cd ./backend
-   npm install
-   npm run build
-   export GEMINI_API_KEY=... # export OPENAI_API_KEY=...
-   node dist/main.js       # <-----------------   BACKEND
-   ```
-3. Install frontend dependencies:
-   ```bash
-   cd ./frontend
-   npm install
-   npm run build
-   cd build
-   serve -s                # <-----------------   FRONTEND
-   ```
-
-### Releases
-The steps above run the latest code. To run a specific release, checkout the tag for that release (in every repo).
-Latest stable tag is `v0.3.0`.
-```
-git fetch --all --tags
-git checkout --force "tags/v0.3.0"
-```
-
-## Troubleshooting
-
-If you encounter any issues during installation or usage, please refer to the following:
-
-- **Error Messages:** Pay close attention to any error messages displayed in your terminal. They often provide clues about the problem.
-- **GitHub Issues:** Check the project repositories on GitHub for existing issue reports or open a new issue if you believe you've found a bug.
-
-## Contributing
-
-We welcome contributions from the community! If you'd like to help improve The Creator AI, feel free to fork the repositories and submit pull requests. 
+* Support for multiple workspaces is not fully implemented.
+* Some file types may not be recognized or handled correctly in the Change Plan view.
 
 ## Release Notes
 
-### `v0.3.0`
+### 0.0.1
 
-- Updated design
+Initial release of the Creator AI extension with basic chat, change plan, and file explorer functionalities.
 
-### `v0.2.0`
+## Following Extension Guidelines
 
-- Using socket for live updates
+This extension adheres to the VS Code extension guidelines and best practices.
 
-### `v0.1.0`
+* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
 
-- Initial release
+## Working with Markdown
+
+You can edit this README using Visual Studio Code. Some useful keyboard shortcuts:
+
+* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
+* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
+* Press `Ctrl+Space` (Windows, Linux, macOS) for Markdown snippets.
+
+## For More Information
+
+* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
+* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
+
+**Enjoy!** 

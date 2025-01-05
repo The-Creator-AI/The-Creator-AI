@@ -1,0 +1,31 @@
+{
+	"compilerOptions": {
+		"module": "esnext",
+		"moduleResolution": "node",
+		"target": "ESNext",
+		"lib": [
+			"ES2022",
+			"DOM"
+		],
+		"jsx": "react",
+		"sourceMap": true,
+		"rootDir": ".",
+		"strict": false, /* enable all strict type-checking options */
+		"noImplicitAny": false,
+		"noImplicitReturns": false,
+		"noImplicitThis": false,
+		/* Additional Checks */
+		// "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
+		// "noFallthroughCasesInSwitch": true, /* Report errors for fallthrough cases in switch statement. */
+		// "noUnusedParameters": true,  /* Report errors on unused parameters. */
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true
+	},
+	"include": [
+		"src/**/*"
+	]
+}

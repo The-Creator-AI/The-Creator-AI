@@ -1,0 +1,9 @@
+/* Import Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Remove default VS Code body padding */
+body {
+    padding: 0;
+}
