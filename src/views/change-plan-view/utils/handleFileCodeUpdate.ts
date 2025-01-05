@@ -29,6 +29,7 @@ export async function handleFileCodeUpdate(
   }
 ) {
   const { filePath, chatHistory, selectedFiles } = data;
+  console.log({ data });
 
   const absoluteFilePath = await resolveFilePath(filePath);
   if (!absoluteFilePath) {
