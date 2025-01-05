@@ -28,9 +28,9 @@ export const handleSubmitPlanRequest = (
   }
 
   const selectedFiles = getSelectedFiles(files);
+  const isUpdatingPlan = getChangePlanViewState("chatHistory").length  && llmResponse
   const newChatHistory = [
-    ...(getChangePlanViewState("chatHistory").length < 1 || !llmResponse
-      ? [
+    ...(isUpdatingPlan ? [
           {
             user: "instructor",
             message: AGENTS["Code Plan"]?.systemInstructions,
@@ -43,7 +43,7 @@ export const handleSubmitPlanRequest = (
             message: AGENTS["Code Plan Update"]?.systemInstructions,
           },
         ]),
-    { user: "user", message: `Revise the plan:\n` + changeDescription },
+    { user: "user", message: (isUpdatingPlan ? `Revise the plan:\n` : '') + changeDescription },
   ];
   setState("chatHistory")(newChatHistory); // Update chatHistory in the store
 
