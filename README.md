@@ -1,28 +1,16 @@
-# Creator AI Extension
+# Creator AI
 
 This extension integrates a coding assistant directly into your VS Code environment.
 
 ## Features
 
-* **Chat View:** Interact with the AI in a conversational format, ask questions, and get code suggestions.
-* **Change Plan View:** Describe code changes you'd like to plan, and the AI will generate a plan for implementation.
-* **File Explorer View:** View and select files from your workspace for context-aware code generation.
+* **Context chooser:** Choose files/folders through UI which are to be kept in the context.
+* **Code Change Plan:** Describe code changes you'd like to plan, and the AI will generate a plan for implementation.
 
 ## Requirements
 
 This extension requires an API key for either Gemini or OpenAI. You'll be prompted to enter your key when you first use the extension.
 
-## Extension Settings
-
-This extension contributes the following settings:
-
-* `creatorExtension.llmRepository`: Stores API keys for LLM services (Gemini, OpenAI).
-* `creatorExtension.chatRepository`: Stores chat history and active chat information.
-
-## Known Issues
-
-* Support for multiple workspaces is not fully implemented.
-* Some file types may not be recognized or handled correctly in the Change Plan view.
 
 ## Release Notes
 

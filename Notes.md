@@ -1,1 +1,1 @@
-[Notes](https://github.com/The-Creator-AI/creator-extension/issues/8)
+[Notes](https://github.com/The-Creator-AI/The-Creator-AI/issues/4)
