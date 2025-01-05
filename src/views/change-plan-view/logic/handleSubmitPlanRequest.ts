@@ -43,7 +43,7 @@ export const handleSubmitPlanRequest = (
             message: AGENTS["Code Plan Update"]?.systemInstructions,
           },
         ]),
-    { user: "user", message: changeDescription },
+    { user: "user", message: `Revise the plan:\n` + changeDescription },
   ];
   setState("chatHistory")(newChatHistory); // Update chatHistory in the store
 
