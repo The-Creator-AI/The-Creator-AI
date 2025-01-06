@@ -57,7 +57,7 @@ ${fileContents[filePath]}
     // Append past change plans to prompt
     if (pastChangePlans?.length) {
       prompt += `\n\nPast Change Plans:\n\`\`\`json\n${JSON.stringify(
-        pastChangePlans.map((plan) => plan.planJson),
+        pastChangePlans.map(({ planTitle, planDescription, planJson }) => ({ planTitle, planDescription, planJson })),
         null,
         2
       )}\n\`\`\`\n\n`;
