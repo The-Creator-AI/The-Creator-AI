@@ -34,12 +34,24 @@ export const handleSubmitPlanRequest = (
   }
 
   const selectedFiles = getSelectedFiles(files);
+
   const isUpdatingPlan =
     getChangePlanViewState("chatHistory").length && llmResponse;
+
+  let chatHistory = getChangePlanViewState("chatHistory");
+  const messagesToSend = [];
+
+  if (chatHistory.length > 0) {
+    if (chatHistory.length > 2) {
+      messagesToSend.push(chatHistory[1]); // Add second message if it exists
+    }
+    messagesToSend.push(chatHistory[chatHistory.length - 1]); // Add last message
+  }
+
   const newChatHistory = [
     ...(isUpdatingPlan
       ? [
-          ...getChangePlanViewState("chatHistory"), // Use chatHistory from store
+          ...chatHistory,
           {
             user: "instructor",
             message: AGENTS["Code Plan Update"]?.systemInstructions,
@@ -51,6 +63,7 @@ export const handleSubmitPlanRequest = (
             message: AGENTS["Code Plan"]?.systemInstructions,
           },
         ]),
+    ...(messagesToSend || []),
     {
       user: "user",
       message: (isUpdatingPlan ? `Revise the plan:\n` : "") + changeDescription,
