@@ -79,6 +79,11 @@ export const commands = [
             "chatHistory",
             selectedPlan.plan.chatHistory
           );
+          remoteSetChangePlanViewState(
+            serverIpc,
+            "changePlans",
+            changePlans
+          );
         } else if(choice === 'Delete') {
           const confirmDelete = await vscode.window.showWarningMessage(
             `Are you sure you want to delete the plan "${selectedPlan.label}"?`,
