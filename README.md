@@ -2,6 +2,10 @@
 
 This extension integrates a coding assistant directly into your VS Code environment.
 
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/2d9da273-8506-4484-a6b7-92cae3018938" />
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/ea18a853-4640-4b35-b291-f6c39ea35bb4" />
+<img width="350" alt="image" src="https://github.com/user-attachments/assets/53cbe519-e8b9-4d7c-a101-151b316bf28f" />
+
 ## Features
 
 * **Context chooser:** Choose files/folders through UI which are to be kept in the context.
