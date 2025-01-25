@@ -1,12 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { FaSpinner } from 'react-icons/fa';
-import { requestCommitMessageSuggestions } from '../../logic/requestCommitMessageSuggestions';
-import { handleCommitMessageSuggestions } from '../../logic/handleCommitMessageSuggestions';
-import { setChangePlanViewState } from '../../store/change-plan-view.logic';
+import AutoResizingTextarea from '@/client/components/AutoResizingTextarea';
 import { useStore } from '@/client/store/useStore';
 import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
+import React, { useState } from 'react';
 import { commitStagedChanges } from '../../logic/commitStagedChanges';
-import AutoResizingTextarea from '@/client/components/AutoResizingTextarea';
 
 const CommitStep: React.FC = () => {
     const {

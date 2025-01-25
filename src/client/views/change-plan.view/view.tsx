@@ -8,7 +8,7 @@ import { FileNode } from "@/common/types/file-node";
 import {
   ChangePlanSteps
 } from "./view.constants";
-import { getChangePlanSteps } from "./components/ChangePlanSteps";
+import { getSteps } from "./steps";
 import "./view.scss";
 import ProgressSteps from "../../components/ProgressSteps";
 import { setupChannelHandlers } from "./logic/setupChannelHandlers";
@@ -29,7 +29,7 @@ const App = () => {
   const [recentFiles, setRecentFiles] = useState<string[]>([]);
   const [activeFile, setActiveFile] = useState<string>();
 
-  const changePlanSteps = getChangePlanSteps({
+  const changePlanSteps = getSteps({
     files,
     recentFiles,
     activeFile,
