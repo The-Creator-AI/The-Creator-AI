@@ -7,10 +7,10 @@ import ErrorBoundary from "@/client/components/ErrorBoundary";
 import { FileNode } from "@/common/types/file-node";
 import {
   ChangePlanSteps
-} from "./change-plan-view.types";
+} from "./types";
 import { getChangePlanSteps } from "./components/ChangePlanSteps";
 import "./change-plan.view.scss";
-import StepIndicators from "./components/step-indicators";
+import ProgressSteps from "../../components/ProgressSteps";
 import { setupChannelHandlers } from "./logic/setupChannelHandlers";
 import {
   setChangePlanViewState as setState,
@@ -67,8 +67,8 @@ const App = () => {
     <div
       className="h-full fixed inset-0 flex flex-col justify-between bg-editor-bg"
     >
-      <StepIndicators
-        changePlanStepsConfig={changePlanSteps}
+      <ProgressSteps
+        stepsConfig={changePlanSteps}
         currentStep={currentTab}
         handleStepClick={handleStepClick}
       />

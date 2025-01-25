@@ -1,7 +1,7 @@
 import FileTree from '@/client/components/file-tree/FileTree';
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { FileNode } from "@/common/types/file-node";
-import { ChangePlanSteps, ChangePlanStepsConfig } from '@/client/views/change-plan-view/change-plan-view.types';
+import { ChangePlanSteps } from '@/client/views/change-plan-view/types';
 import PlanStep from '@/client/views/change-plan-view/components/plan-step/plan-step';
 import { setChangePlanViewState as setState } from '@/client/views/change-plan-view/store/change-plan-view.logic';
 import { getChangePlanViewState } from '@/client/views/change-plan-view/store/change-plan-view.store';
@@ -9,6 +9,7 @@ import * as React from "react";
 import ApiKeyManagementStep from './api-key-management-step/ApiKeyManagementStep';
 import CommitStep from "./commit-step/CommitStep";
 import { handleFileClick } from "../logic/handleFileClick";
+import {StepsConfig} from '@/client/components/ProgressSteps';
 
 export const getChangePlanSteps = (
     {
@@ -24,7 +25,7 @@ export const getChangePlanSteps = (
         setRecentFiles: React.Dispatch<React.SetStateAction<string[]>>,
         setActiveFile: React.Dispatch<React.SetStateAction<string>>
     }
-): ChangePlanStepsConfig => {
+): StepsConfig => {
     const clientIpc = ClientPostMessageManager.getInstance();
     const selectedFiles = getChangePlanViewState("selectedFiles");
     const llmResponse = getChangePlanViewState("llmResponse");

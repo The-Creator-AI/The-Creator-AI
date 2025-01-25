@@ -17,7 +17,7 @@ const extensionConfig = {
   entry: {
     extension: './src/extension.ts',
     chatView: './src/client/views/chat-view/index.tsx',
-    changePlanView: './src/client/views/change-plan-view/change-plan.view.tsx',
+    changePlanView: './src/client/views/change-plan-view/view.tsx',
     fileExplorerView: './src/client/views/file-explorer-view/index.tsx',
   },  
   output: {

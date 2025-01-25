@@ -5,7 +5,7 @@ import {
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { FileNode } from "@/common/types/file-node";
 import { KeyPaths, KeyPathValue } from "@/common/utils/key-path";
-import { ChangePlanSteps } from "@/client/views/change-plan-view/change-plan-view.types";
+import { ChangePlanSteps } from "@/client/views/change-plan-view/types";
 import { updateOrCreateChangePlan } from "@/client/views/change-plan-view/logic/updateOrCreateChangePlan";
 import {
     setChangePlanViewState as setState
