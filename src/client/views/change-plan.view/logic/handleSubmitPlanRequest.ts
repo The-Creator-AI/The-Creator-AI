@@ -3,9 +3,9 @@ import { ClientToServerChannel } from "@/common/ipc/channels.enum";
 import {
   setChangePlanViewState as setState,
   setChangePlanViewState,
-} from "@/client/views/change-plan-view/store/change-plan-view.logic";
-import { getChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.store";
-import { getSelectedFiles } from "@/client/views/change-plan-view/logic/getSelectedFiles";
+} from "@/client/views/change-plan.view/store/change-plan-view.logic";
+import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
+import { getSelectedFiles } from "@/client/views/change-plan.view/logic/getSelectedFiles";
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { FileNode } from "@/common/types/file-node";
 

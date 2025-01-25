@@ -1,4 +1,4 @@
-import { getChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.store";
+import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
 import { FileNode } from "@/common/types/file-node";
 
 export const getSelectedFiles = (files: FileNode[]) => {

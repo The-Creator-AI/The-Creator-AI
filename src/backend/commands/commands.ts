@@ -1,5 +1,5 @@
-import { ChangePlan } from "@/client/views/change-plan-view/store/change-plan-view.state-type";
-import { remoteSetChangePlanViewState } from "@/client/views/change-plan-view/utils/remoteSetChangePlanViewState";
+import { ChangePlan } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { remoteSetChangePlanViewState } from "@/client/views/change-plan.view/utils/remoteSetChangePlanViewState";
 import { VIEW_TYPES } from "@/common/view-types";
 import * as vscode from "vscode";
 import { Services } from "@/backend/services/services";

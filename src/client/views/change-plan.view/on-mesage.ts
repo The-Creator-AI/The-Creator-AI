@@ -6,18 +6,18 @@ import {
 } from "@/common/ipc/channels.enum";
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { parseJsonResponse } from "@/common/utils/parse-json";
-import { ChangePlanViewStore } from "@/client/views/change-plan-view/store/change-plan-view.state-type";
-import { handleActiveTabChange } from "@/client/views/change-plan-view/utils/handleActiveTabChange";
-import { handleFileCodeUpdate } from "@/client/views/change-plan-view/utils/handleFileCodeUpdate";
-import { handleFileOpen } from "@/client/views/change-plan-view/utils/handleFileOpen";
-import { handleSendMessage } from "@/client/views/change-plan-view/utils/handleSendMessage";
-import { handleStreamMessage } from "@/client/views/change-plan-view/utils/handleStreamMessage";
-import { handleWorkspaceFilesRequest } from "@/client/views/change-plan-view/utils/handleWorkspaceFilesRequest";
+import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { handleActiveTabChange } from "@/client/views/change-plan.view/utils/handleActiveTabChange";
+import { handleFileCodeUpdate } from "@/client/views/change-plan.view/utils/handleFileCodeUpdate";
+import { handleFileOpen } from "@/client/views/change-plan.view/utils/handleFileOpen";
+import { handleSendMessage } from "@/client/views/change-plan.view/utils/handleSendMessage";
+import { handleStreamMessage } from "@/client/views/change-plan.view/utils/handleStreamMessage";
+import { handleWorkspaceFilesRequest } from "@/client/views/change-plan.view/utils/handleWorkspaceFilesRequest";
 import { gitCommit } from "./utils/gitCommit";
 import * as vscode from 'vscode';
 
 // Function to handle messages for the change plan view
-export function handleChangePlanViewMessages(
+export function onMessage(
   serverIpc: ServerPostMessageManager
 ) {
   serverIpc.onClientMessage(ClientToServerChannel.RequestWorkspaceFiles, () =>

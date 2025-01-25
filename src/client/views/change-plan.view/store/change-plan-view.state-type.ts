@@ -1,4 +1,4 @@
-import { ChangePlanSteps } from "../types";
+import { ChangePlanSteps } from "../view.constants";
 import { ChatMessage } from "@/backend/repositories/chat.respository";
 
 export interface ChangePlan {

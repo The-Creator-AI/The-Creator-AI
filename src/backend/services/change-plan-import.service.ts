@@ -1,7 +1,7 @@
 import { Services } from '@/backend/services/services';
-import { initialState } from '@/client/views/change-plan-view/store/change-plan-view.initial-state';
-import { setChangePlanViewState } from '@/client/views/change-plan-view/store/change-plan-view.logic';
-import { ChangePlan } from '@/client/views/change-plan-view/store/change-plan-view.state-type';
+import { initialState } from '@/client/views/change-plan.view/store/change-plan-view.initial-state';
+import { setChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.logic';
+import { ChangePlan } from '@/client/views/change-plan.view/store/change-plan-view.state-type';
 import { Injectable } from 'injection-js';
 import * as vscode from 'vscode';
 

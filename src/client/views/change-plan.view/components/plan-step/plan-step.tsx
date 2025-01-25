@@ -1,7 +1,7 @@
 import { FileNode } from '@/common/types/file-node';
 import PlanInputBox from './plan-input-box';
-import { setChangePlanViewState as setState } from '@/client/views/change-plan-view/store/change-plan-view.logic';
-import { getChangePlanViewState } from '@/client/views/change-plan-view/store/change-plan-view.store';
+import { setChangePlanViewState as setState } from '@/client/views/change-plan.view/store/change-plan-view.logic';
+import { getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
 import Markdown from "markdown-to-jsx";
 import * as React from "react";
 import { useEffect, useState } from "react";

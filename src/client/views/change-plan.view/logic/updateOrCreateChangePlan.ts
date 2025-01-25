@@ -1,6 +1,6 @@
 import { parseJsonResponse } from "@/common/utils/parse-json";
-import { getChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.store";
-import { setChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.logic";
+import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
+import { setChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.logic";
 
 export const updateOrCreateChangePlan = (llmResponse: string) => {
   try {

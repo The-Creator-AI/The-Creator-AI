@@ -1,5 +1,5 @@
 import { ChangePlanViewStore } from "./change-plan-view.state-type";
-import { ChangePlanSteps } from "../types";
+import { ChangePlanSteps } from "../view.constants";
 
 export const initialState: ChangePlanViewStore = {
   changeDescription: "",

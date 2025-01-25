@@ -1,8 +1,8 @@
 import { ClientToServerChannel, ServerToClientChannel } from "@/common/ipc/channels.enum";
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { useStore } from "@/client/store/useStore";
-import { setChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.logic";
-import { changePlanViewStoreStateSubject, getChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.store";
+import { setChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.logic";
+import { changePlanViewStoreStateSubject, getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { MdFileDownload } from "react-icons/md";

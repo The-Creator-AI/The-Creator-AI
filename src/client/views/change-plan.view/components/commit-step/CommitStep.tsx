@@ -4,7 +4,7 @@ import { requestCommitMessageSuggestions } from '../../logic/requestCommitMessag
 import { handleCommitMessageSuggestions } from '../../logic/handleCommitMessageSuggestions';
 import { setChangePlanViewState } from '../../store/change-plan-view.logic';
 import { useStore } from '@/client/store/useStore';
-import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/views/change-plan-view/store/change-plan-view.store';
+import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
 import { commitStagedChanges } from '../../logic/commitStagedChanges';
 import AutoResizingTextarea from '@/client/components/AutoResizingTextarea';
 

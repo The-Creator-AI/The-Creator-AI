@@ -7,7 +7,7 @@ import ErrorBoundary from "@/client/components/ErrorBoundary";
 import { FileNode } from "@/common/types/file-node";
 import {
   ChangePlanSteps
-} from "./types";
+} from "./view.constants";
 import { getChangePlanSteps } from "./components/ChangePlanSteps";
 import "./view.scss";
 import ProgressSteps from "../../components/ProgressSteps";

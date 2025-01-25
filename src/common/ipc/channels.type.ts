@@ -2,7 +2,7 @@ import { FileNode } from "@/common/types/file-node";
 import { ClientToServerChannel, ServerToClientChannel } from "./channels.enum";
 import { ChatMessage } from "@/backend/repositories/chat.respository";
 import { KeyPaths, KeyPathValue } from "@/common/utils/key-path";
-import { ChangePlanViewStore } from "@/client/views/change-plan-view/store/change-plan-view.state-type";
+import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
 import { LlmServiceEnum } from "@/backend/types/llm-service.enum";
 
 export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel> =

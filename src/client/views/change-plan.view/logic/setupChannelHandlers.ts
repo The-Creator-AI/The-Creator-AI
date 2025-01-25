@@ -5,13 +5,13 @@ import {
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { FileNode } from "@/common/types/file-node";
 import { KeyPaths, KeyPathValue } from "@/common/utils/key-path";
-import { ChangePlanSteps } from "@/client/views/change-plan-view/types";
-import { updateOrCreateChangePlan } from "@/client/views/change-plan-view/logic/updateOrCreateChangePlan";
+import { ChangePlanSteps } from "@/client/views/change-plan.view/view.constants";
+import { updateOrCreateChangePlan } from "@/client/views/change-plan.view/logic/updateOrCreateChangePlan";
 import {
     setChangePlanViewState as setState
-} from "@/client/views/change-plan-view/store/change-plan-view.logic";
-import { ChangePlanViewStore } from "@/client/views/change-plan-view/store/change-plan-view.state-type";
-import { getChangePlanViewState } from "@/client/views/change-plan-view/store/change-plan-view.store";
+} from "@/client/views/change-plan.view/store/change-plan-view.logic";
+import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
 
 export const setupChannelHandlers = (
   setFiles: React.Dispatch<React.SetStateAction<FileNode[]>>
