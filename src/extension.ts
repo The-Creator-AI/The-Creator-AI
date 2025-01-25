@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { registerViews } from "./client/views/register-views";
+import { registerViews } from "./client/views";
 import { registerCommands } from "./backend/commands/register-commands";
 import { Services } from "./backend/services/services";
 

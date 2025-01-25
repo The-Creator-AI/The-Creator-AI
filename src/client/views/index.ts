@@ -1,10 +1,17 @@
+import { viewConfig as changePlanViewConfig } from "./change-plan-view";
+import { viewConfig as chatViewConfig } from "./chat-view";
+import { viewConfig as fileExplorerViewConfig } from "./file-explorer-view";
 import * as vscode from "vscode";
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
-import { getNonce } from "./nonce";
-import { views } from "./views";
+import { getNonce, getViewHtml } from "@/common/utils/view-html";
 
-export const serverIPCs: Record<string,ServerPostMessageManager> = {
-};
+export const views = [
+  changePlanViewConfig,
+  chatViewConfig,
+  fileExplorerViewConfig,
+];
+
+export const serverIPCs: Record<string, ServerPostMessageManager> = {};
 
 export function registerViews(context: vscode.ExtensionContext) {
   views.forEach((viewConfig) => {
@@ -17,11 +24,19 @@ export function registerViews(context: vscode.ExtensionContext) {
           };
 
           const nonce = getNonce();
-          webviewView.webview.html = viewConfig.getHtml(
-            webviewView.webview,
+          webviewView.webview.html = getViewHtml({
+            webview: webviewView.webview,
             nonce,
-            context.extensionUri
-          );
+            scriptUri: webviewView.webview
+              .asWebviewUri(
+                vscode.Uri.joinPath(
+                  context.extensionUri,
+                  "dist",
+                  viewConfig.entry
+                )
+              )
+              .toString(),
+          });
 
           const serverIpc = ServerPostMessageManager.getInstance(
             webviewView.webview.onDidReceiveMessage,

@@ -16,9 +16,9 @@ const extensionConfig = {
 
   entry: {
     extension: './src/extension.ts',
-    chatView: './src/client/views/chat-view/index.tsx',
+    chatView: './src/client/views/chat-view/view.tsx',
     changePlanView: './src/client/views/change-plan-view/view.tsx',
-    fileExplorerView: './src/client/views/file-explorer-view/index.tsx',
+    fileExplorerView: './src/client/views/file-explorer-view/view.tsx',
   },  
   output: {
     // the bundle is stored in the 'dist' folder (check package.json), 📖 -> https://webpack.js.org/configuration/output/

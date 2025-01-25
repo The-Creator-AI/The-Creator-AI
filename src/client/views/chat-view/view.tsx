@@ -5,7 +5,7 @@ import { ClientPostMessageManager } from '@/common/ipc/client-ipc';
 import { ClientToServerChannel, ServerToClientChannel } from '@/common/ipc/channels.enum';
 import Markdown from 'markdown-to-jsx';
 import { FaUser, FaRobot } from 'react-icons/fa';
-import './index.scss';
+import './view.scss';
 
 const App = () => {
   const [messages, setMessages] = React.useState<{ user: string; message: string }[]>([]);

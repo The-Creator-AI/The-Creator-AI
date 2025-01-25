@@ -9,7 +9,7 @@ import {
   ChangePlanSteps
 } from "./types";
 import { getChangePlanSteps } from "./components/ChangePlanSteps";
-import "./change-plan.view.scss";
+import "./view.scss";
 import ProgressSteps from "../../components/ProgressSteps";
 import { setupChannelHandlers } from "./logic/setupChannelHandlers";
 import {

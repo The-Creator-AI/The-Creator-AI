@@ -1,9 +1,9 @@
 import { ChangePlan } from "@/client/views/change-plan-view/store/change-plan-view.state-type";
 import { remoteSetChangePlanViewState } from "@/client/views/change-plan-view/utils/remoteSetChangePlanViewState";
-import { serverIPCs } from "@/client/views/register-views";
 import { VIEW_TYPES } from "@/common/view-types";
 import * as vscode from "vscode";
 import { Services } from "@/backend/services/services";
+import { serverIPCs } from "@/client/views";
 
 // Define an array of commands with their corresponding callback functions
 export const commands = [

@@ -5,7 +5,7 @@ import { getChangePlanViewState } from '@/client/views/change-plan-view/store/ch
 import Markdown from "markdown-to-jsx";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import "../../change-plan.view.scss";
+import "../../view.scss";
 import FormattedPlanPreview from "./formatted-plan-preview";
 import { parseJsonResponse } from '@/common/utils/parse-json';
 

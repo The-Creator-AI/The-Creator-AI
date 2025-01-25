@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { getViewHtml } from "@/common/utils/get-view-html";
+import { getViewHtml } from "@/common/utils/view-html";
 
 // Function to get HTML for change plan view
 export function getChangePlanViewHtml(

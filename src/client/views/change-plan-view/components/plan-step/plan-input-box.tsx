@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../../change-plan.view.scss';
+import '../../view.scss';
 import { BsSend } from 'react-icons/bs';
 import AutoResizingTextarea from '@/client/components/AutoResizingTextarea';
 import { ClientPostMessageManager } from '@/common/ipc/client-ipc';
