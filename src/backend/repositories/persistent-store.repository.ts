@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { StorageKeysEnum } from "../types/storage-keys.enum";
 import { getContext } from "../../extension";
-import {ChangePlanViewStore} from '@/views/change-plan-view/store/change-plan-view.state-type';
+import {ChangePlanViewStore} from '@/client/views/change-plan-view/store/change-plan-view.state-type';
 
 export class PersistentStoreRepository {
   private readonly workspaceState: vscode.Memento;

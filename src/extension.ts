@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
-import { registerViews } from "./views/register-views";
-import { registerCommands } from "./commands/register-commands";
+import { registerViews } from "./client/views/register-views";
+import { registerCommands } from "./backend/commands/register-commands";
 import { Services } from "./backend/services/services";
 
 let globalContext: vscode.ExtensionContext | null = null;
