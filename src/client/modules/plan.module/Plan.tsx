@@ -5,16 +5,15 @@ import { getChangePlanViewState } from '@/client/views/change-plan.view/store/ch
 import Markdown from "markdown-to-jsx";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import "../../view.scss";
 import FormattedPlanPreview from "./formatted-plan-preview";
 import { parseJsonResponse } from '@/common/utils/parse-json';
 
-interface PlanStepProps {
+export interface PlanProps {
     llmResponse: string;
     files: FileNode[],
 }
 
-const PlanStep: React.FC<PlanStepProps> = ({ llmResponse, files }) => {
+const Plan: React.FC<PlanProps> = ({ llmResponse, files }) => {
     const [responseType, setResponseType] = useState<'json' | 'markdown' | null>(null);
     const [parsedResponse, setParsedResponse] = useState<any>(null);
 
@@ -57,4 +56,4 @@ const PlanStep: React.FC<PlanStepProps> = ({ llmResponse, files }) => {
     );
 };
 
-export default PlanStep;
+export default Plan;

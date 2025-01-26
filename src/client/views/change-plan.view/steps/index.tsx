@@ -2,7 +2,6 @@ import FileTree from '@/client/components/file-tree/FileTree';
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { FileNode } from "@/common/types/file-node";
 import { ChangePlanSteps } from '@/client/views/change-plan.view/view.constants';
-import PlanStep from '@/client/views/change-plan.view/steps/plan.step/plan-step';
 import { setChangePlanViewState as setState } from '@/client/views/change-plan.view/store/change-plan-view.logic';
 import { getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
 import * as React from "react";
@@ -10,6 +9,7 @@ import ApiKeyManagementStep from './api-key-management.step/ApiKeyManagementStep
 import CommitStep from "./commit.step/CommitStep";
 import { handleFileClick } from "../logic/handleFileClick";
 import {StepsConfig} from '@/client/components/ProgressSteps';
+import PlanStep from './plan.step/PlanStep';
 
 export const getSteps = (
     {

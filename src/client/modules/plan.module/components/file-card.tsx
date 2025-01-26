@@ -4,7 +4,7 @@ import * as React from "react";
 import { MdDescription } from 'react-icons/md';
 import { ClientToServerChannel } from '@/common/ipc/channels.enum';
 import { ClientPostMessageManager } from '@/common/ipc/client-ipc';
-import { getChangePlanViewState } from '../../../store/change-plan-view.store';
+import { getChangePlanViewState } from '../../../views/change-plan.view/store/change-plan-view.store';
 import { setChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.logic';
 import { ServerToClientChannel } from '@/common/ipc/channels.enum';
 import Markdown from "markdown-to-jsx";
