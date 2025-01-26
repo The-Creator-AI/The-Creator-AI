@@ -1,5 +1,6 @@
 import { ChangePlanSteps } from "../view.constants";
 import { ChatMessage } from "@/backend/repositories/chat.respository";
+import { FileNode } from "@/common/types/file-node";
 
 export interface ChangePlan {
   planTitle: string;
@@ -27,6 +28,7 @@ export interface ChangePlanViewStore {
       fileContent: string;
     }
   >;
+    files: FileNode[];
   commitSuggestionsLoading: boolean;
   commitSuggestions: string[];
 }

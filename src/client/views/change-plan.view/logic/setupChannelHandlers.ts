@@ -13,9 +13,7 @@ import {
 import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
 import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
 
-export const setupChannelHandlers = (
-  setFiles: React.Dispatch<React.SetStateAction<FileNode[]>>
-) => {
+export const setupChannelHandlers = () => {
   const clientIpc = ClientPostMessageManager.getInstance();
 
   const handleSendMessage = ({ message }: { message: string }) => {
@@ -39,7 +37,7 @@ export const setupChannelHandlers = (
   };
 
   const handleSendWorkspaceFiles = ({ files }: { files: FileNode[] }) => {
-    setFiles(files);
+     setState("files")(files);
   };
 
   const handleSendFileCode = ({

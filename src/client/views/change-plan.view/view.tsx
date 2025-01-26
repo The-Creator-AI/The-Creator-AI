@@ -5,37 +5,20 @@ import * as ReactDOM from "react-dom/client";
 import { FaSpinner } from "react-icons/fa"; // Import spinner icon
 import ErrorBoundary from "@/client/components/ErrorBoundary";
 import { FileNode } from "@/common/types/file-node";
-import {
-  ChangePlanSteps
-} from "./view.constants";
+import { ChangePlanSteps } from "./view.constants";
 import { getSteps } from "./steps";
 import "./view.scss";
 import ProgressSteps from "../../components/ProgressSteps";
 import { setupChannelHandlers } from "./logic/setupChannelHandlers";
-import {
-  setChangePlanViewState as setState,
-} from "./store/change-plan-view.logic";
-import {
-  changePlanViewStoreStateSubject
-} from "./store/change-plan-view.store";
-import {Log} from '@/common/utils/firebaseLogger';
+import { setChangePlanViewState as setState } from "./store/change-plan-view.logic";
+import { changePlanViewStoreStateSubject } from "./store/change-plan-view.store";
+import { Log } from "@/common/utils/firebaseLogger";
 
 const App = () => {
-  const {
-    isLoading,
-    currentStep: currentTab,
-  } = useStore(changePlanViewStoreStateSubject);
-  const [files, setFiles] = useState<FileNode[]>([]);
-  const [recentFiles, setRecentFiles] = useState<string[]>([]);
-  const [activeFile, setActiveFile] = useState<string>();
-
-  const changePlanSteps = getSteps({
-    files,
-    recentFiles,
-    activeFile,
-    setRecentFiles,
-    setActiveFile,
-  });
+  const { isLoading, currentStep: currentTab } = useStore(
+    changePlanViewStoreStateSubject
+  );
+  const changePlanSteps = getSteps();
 
   // Initialize Firebase
   useEffect(() => {
@@ -43,7 +26,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    setupChannelHandlers(setFiles);
+    setupChannelHandlers();
   }, []);
 
   const handleStepClick = (step: ChangePlanSteps) => {
@@ -61,12 +44,10 @@ const App = () => {
 
   console.log({
     changePlanSteps,
-    currentTab
+    currentTab,
   });
   return (
-    <div
-      className="h-full fixed inset-0 flex flex-col justify-between bg-editor-bg"
-    >
+    <div className="h-full fixed inset-0 flex flex-col justify-between bg-editor-bg">
       <ProgressSteps
         stepsConfig={changePlanSteps}
         currentStep={currentTab}

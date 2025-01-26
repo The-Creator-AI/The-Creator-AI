@@ -13,4 +13,5 @@ export const initialState: ChangePlanViewStore = {
   commitSuggestions: [],
   commitSuggestionsLoading: false,
   fileChunkMap: {},
+  files: [],
 };
