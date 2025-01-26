@@ -1,24 +1,45 @@
+import ErrorBoundary from "@/client/components/ErrorBoundary";
+import { StepsConfig } from '@/client/components/ProgressSteps';
+import ApiKeyManagement from '@/client/modules/api-keys-management.module/ApiKeysManagement';
+import Commit from '@/client/modules/commit.module/Commit';
+import Context from '@/client/modules/context.module/Context';
+import Plan from '@/client/modules/plan.module/Plan';
 import { useStore } from "@/client/store/useStore";
+import { Log } from "@/common/utils/firebaseLogger";
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as ReactDOM from "react-dom/client";
 import { FaSpinner } from "react-icons/fa"; // Import spinner icon
-import ErrorBoundary from "@/client/components/ErrorBoundary";
-import { FileNode } from "@/common/types/file-node";
-import { ChangePlanSteps } from "./view.constants";
-import { getSteps } from "./steps";
-import "./view.scss";
 import ProgressSteps from "../../components/ProgressSteps";
 import { setupChannelHandlers } from "./logic/setupChannelHandlers";
 import { setChangePlanViewState as setState } from "./store/change-plan-view.logic";
 import { changePlanViewStoreStateSubject } from "./store/change-plan-view.store";
-import { Log } from "@/common/utils/firebaseLogger";
+import { ChangePlanSteps } from "./view.constants";
+import "./view.scss";
 
 const App = () => {
   const { isLoading, currentStep: currentTab } = useStore(
     changePlanViewStoreStateSubject
   );
-  const changePlanSteps = getSteps();
+  const changePlanSteps: StepsConfig = {
+    [ChangePlanSteps.ApiKeyManagement]: {
+      indicatorText: "API Keys",
+      renderStep: () => <ApiKeyManagement />,
+    },
+    [ChangePlanSteps.Context]: {
+      indicatorText: "Context",
+      renderStep: () => <Context />,
+    },
+    [ChangePlanSteps.Plan]: {
+      indicatorText: "Plan",
+      renderStep: () => <Plan />,
+    },
+    [ChangePlanSteps.Commit]: {
+      indicatorText: "Commit",
+      renderStep: () => <Commit />,
+    },
+  };
+  
 
   // Initialize Firebase
   useEffect(() => {
@@ -42,10 +63,6 @@ const App = () => {
     </div>
   );
 
-  console.log({
-    changePlanSteps,
-    currentTab,
-  });
   return (
     <div className="h-full fixed inset-0 flex flex-col justify-between bg-editor-bg">
       <ProgressSteps
@@ -65,6 +82,7 @@ const App = () => {
 const root = ReactDOM.createRoot(
   document.getElementById("change-plan-view-root")!
 );
+
 root.render(
   <ErrorBoundary>
     <App />
