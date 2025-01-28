@@ -7,6 +7,7 @@ import { ChatRepository } from "../repositories/chat.respository";
 import { PersistentStoreRepository } from "../repositories/persistent-store.repository";
 import { LoggerService } from "./logger.service";
 import { PlanExImService } from "./plan-exim.service";
+import { CodeService } from "./code.service";
 
 export class Services {
   static injector: ReflectiveInjector;
@@ -20,6 +21,7 @@ export class Services {
       LlmService,
       PlanExImService,
       LoggerService,
+      CodeService,
     ]);
   }
 
@@ -41,6 +43,10 @@ export class Services {
 
   static getPlanExImService(): PlanExImService {
     return Services.injector.get(PlanExImService);
+  }
+
+   static getCodeService(): CodeService {
+    return Services.injector.get(CodeService);
   }
 
   static getLoggerService(): LoggerService {

@@ -8,28 +8,47 @@ import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { parseJsonResponse } from "@/common/utils/parse-json";
 import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
 import { handleActiveTabChange } from "@/client/views/change-plan.view/utils/handleActiveTabChange";
-import { handleFileCodeUpdate } from "@/client/views/change-plan.view/utils/handleFileCodeUpdate";
 import { handleFileOpen } from "@/client/views/change-plan.view/utils/handleFileOpen";
 import { handleSendMessage } from "@/client/views/change-plan.view/utils/handleSendMessage";
 import { handleStreamMessage } from "@/client/views/change-plan.view/utils/handleStreamMessage";
 import { handleWorkspaceFilesRequest } from "@/client/views/change-plan.view/utils/handleWorkspaceFilesRequest";
 import { gitCommit } from "./utils/gitCommit";
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
 // Function to handle messages for the change plan view
-export function onMessage(
-  serverIpc: ServerPostMessageManager
-) {
+export function onMessage(serverIpc: ServerPostMessageManager) {
   serverIpc.onClientMessage(ClientToServerChannel.RequestWorkspaceFiles, () =>
     handleWorkspaceFilesRequest(serverIpc)
   );
 
-  serverIpc.onClientMessage(ClientToServerChannel.RequestFileCode, (data) =>
-    handleFileCodeUpdate(serverIpc, data)
+  serverIpc.onClientMessage(
+    ClientToServerChannel.RequestFileCode,
+    async (data) => {
+      const res = await Services.getCodeService().requestFileCode(
+        data.filePath,
+        data.chatHistory,
+        data.selectedFiles
+      );
+      serverIpc.sendToClient(ServerToClientChannel.SendFileCode, res);
+    }
   );
 
-  serverIpc.onClientMessage(ClientToServerChannel.RequestStreamFileCode, (data) =>
-    handleFileCodeUpdate(serverIpc, data)
+  serverIpc.onClientMessage(
+    ClientToServerChannel.RequestStreamFileCode,
+    async (data) => {
+      const res = await Services.getCodeService().requestFileCode(
+        data.filePath,
+        data.chatHistory,
+        data.selectedFiles,
+        (filePath, chunk) => {
+          serverIpc.sendToClient(ServerToClientChannel.StreamFileCode, {
+            filePath,
+            chunk
+          });
+        }
+      );
+      serverIpc.sendToClient(ServerToClientChannel.SendFileCode, res);
+    }
   );
 
   serverIpc.onClientMessage(ClientToServerChannel.SendMessage, (data) =>
@@ -146,20 +165,17 @@ export function onMessage(
   );
 
   // Handle get LLM API keys request
-  serverIpc.onClientMessage(
-    ClientToServerChannel.GetLLMApiKeys,
-    async () => {
-      try {
-        const apiKeys = await Services.getSettingsRepository().getLLMApiKeys();
-        serverIpc.sendToClient(ServerToClientChannel.SendLLMApiKeys, {
-          apiKeys,
-        });
-      } catch (error) {
-        console.error("Error getting LLM API keys:", error);
-        // Handle the error appropriately, e.g., send an error message to the client
-      }
+  serverIpc.onClientMessage(ClientToServerChannel.GetLLMApiKeys, async () => {
+    try {
+      const apiKeys = await Services.getSettingsRepository().getLLMApiKeys();
+      serverIpc.sendToClient(ServerToClientChannel.SendLLMApiKeys, {
+        apiKeys,
+      });
+    } catch (error) {
+      console.error("Error getting LLM API keys:", error);
+      // Handle the error appropriately, e.g., send an error message to the client
     }
-  );
+  });
 
   // Handle set LLM API key request
   serverIpc.onClientMessage(
@@ -170,7 +186,8 @@ export function onMessage(
 
         // After successfully setting the API key, you might want to re-fetch
         // the API keys and send them back to the client to update the UI.
-        const updatedApiKeys = await Services.getSettingsRepository().getLLMApiKeys();
+        const updatedApiKeys =
+          await Services.getSettingsRepository().getLLMApiKeys();
         serverIpc.sendToClient(ServerToClientChannel.SendLLMApiKeys, {
           apiKeys: updatedApiKeys,
         });
@@ -193,7 +210,8 @@ export function onMessage(
 
         // After successfully deleting the API key, you might want to re-fetch
         // the API keys and send them back to the client to update the UI.
-        const updatedApiKeys = await Services.getSettingsRepository().getLLMApiKeys();
+        const updatedApiKeys =
+          await Services.getSettingsRepository().getLLMApiKeys();
         serverIpc.sendToClient(ServerToClientChannel.SendLLMApiKeys, {
           apiKeys: updatedApiKeys,
         });
@@ -209,11 +227,9 @@ export function onMessage(
     ClientToServerChannel.RequestSymbols,
     async ({ query }) => {
       try {
-        const symbolInformation =
-          await vscode.commands.executeCommand<vscode.SymbolInformation[]>(
-            "vscode.executeWorkspaceSymbolProvider",
-            query || ""
-          );
+        const symbolInformation = await vscode.commands.executeCommand<
+          vscode.SymbolInformation[]
+        >("vscode.executeWorkspaceSymbolProvider", query || "");
         const files = await vscode.workspace.findFiles(`**/${query}**`);
 
         serverIpc.sendToClient(ServerToClientChannel.SendSymbols, {
