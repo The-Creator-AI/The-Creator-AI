@@ -124,15 +124,15 @@ export const commands = [
   {
     commandId: "the-creator-ai.exportChangePlan",
     callback: async () => {
-      const changePlanExportService = Services.getChangePlanExportService();
-      await changePlanExportService.exportAllChangePlans();
+      const planExImService = Services.getPlanExImService();
+      await planExImService.exportAllChangePlans();
     },
   },
   {
     commandId: "the-creator-ai.importChangePlan",
     callback: async () => {
-      const changePlanImportService = Services.getChangePlanImportService();
-      await changePlanImportService.importAllChangePlans();
+       const planExImService = Services.getPlanExImService();
+      await planExImService.importAllChangePlans();
     },
   },
 ];
