@@ -8,13 +8,13 @@ import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { parseJsonResponse } from "@/common/utils/parse-json";
 import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
 import { handleActiveTabChange } from "@/backend/utils/handleActiveTabChange";
-import { handleSendMessage } from "@/backend/utils/handleSendMessage";
-import { handleStreamMessage } from "@/backend/utils/handleStreamMessage";
 import * as vscode from "vscode";
+import { MessageService } from "@/backend/services/message.service";
 
 // Function to handle messages for the change plan view
 export function onMessage(serverIpc: ServerPostMessageManager) {
-  const fsService  = Services.getFSService();
+  const fsService = Services.getFSService();
+  const messageService = Services.getMessageService();
   serverIpc.onClientMessage(ClientToServerChannel.RequestWorkspaceFiles, () =>
     fsService.handleWorkspaceFilesRequest(serverIpc)
   );
@@ -41,7 +41,7 @@ export function onMessage(serverIpc: ServerPostMessageManager) {
         (filePath, chunk) => {
           serverIpc.sendToClient(ServerToClientChannel.StreamFileCode, {
             filePath,
-            chunk
+            chunk,
           });
         }
       );
@@ -50,11 +50,11 @@ export function onMessage(serverIpc: ServerPostMessageManager) {
   );
 
   serverIpc.onClientMessage(ClientToServerChannel.SendMessage, (data) =>
-    handleSendMessage(serverIpc, data)
+      messageService.sendMessage(serverIpc, data)
   );
 
   serverIpc.onClientMessage(ClientToServerChannel.SendStreamMessage, (data) => {
-    handleStreamMessage(serverIpc, data);
+      messageService.streamMessage(serverIpc, data)
   });
 
   serverIpc.onClientMessage(

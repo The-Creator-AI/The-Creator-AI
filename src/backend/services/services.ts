@@ -9,6 +9,7 @@ import { LoggerService } from "./logger.service";
 import { PlanExImService } from "./plan-exim.service";
 import { CodeService } from "./code.service";
 import { GitService } from "./git.service";
+import { MessageService } from "./message.service";
 
 export class Services {
   static injector: ReflectiveInjector;
@@ -24,6 +25,7 @@ export class Services {
       LoggerService,
       CodeService,
       GitService,
+      MessageService,
     ]);
   }
 
@@ -57,5 +59,9 @@ export class Services {
 
    static getGitService(): GitService {
     return Services.injector.get(GitService);
+  }
+
+    static getMessageService(): MessageService {
+    return Services.injector.get(MessageService);
   }
 }
