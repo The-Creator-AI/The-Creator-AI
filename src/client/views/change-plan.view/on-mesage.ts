@@ -145,7 +145,8 @@ export function onMessage(serverIpc: ServerPostMessageManager) {
 
       try {
         // Use the publicly available VS Code command to commit the staged changes with the provided message
-        await gitCommit(message.message, message.description);
+        const gitService = Services.getGitService();
+        await gitService.gitCommit(message.message, message.description);
       } catch (error) {
         // Handle any errors during the commit process
         console.error("Error committing changes:", error);

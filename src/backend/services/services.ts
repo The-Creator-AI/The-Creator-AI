@@ -8,6 +8,7 @@ import { PersistentStoreRepository } from "../repositories/persistent-store.repo
 import { LoggerService } from "./logger.service";
 import { PlanExImService } from "./plan-exim.service";
 import { CodeService } from "./code.service";
+import { GitService } from "./git.service";
 
 export class Services {
   static injector: ReflectiveInjector;
@@ -22,6 +23,7 @@ export class Services {
       PlanExImService,
       LoggerService,
       CodeService,
+      GitService,
     ]);
   }
 
@@ -51,5 +53,9 @@ export class Services {
 
   static getLoggerService(): LoggerService {
     return Services.injector.get(LoggerService);
+  }
+
+   static getGitService(): GitService {
+    return Services.injector.get(GitService);
   }
 }
