@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { ServerToClientChannel } from "@/common/ipc/channels.enum";
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { KeyPaths, KeyPathValue } from "@/common/utils/key-path";
-import { ChangePlanViewStore } from "../store/change-plan-view.state-type";
+import { ChangePlanViewStore } from "../../client/views/change-plan.view/store/change-plan-view.state-type";
 
 /**
  * Handles active tab changes in VS Code and sends the active file path to the server.

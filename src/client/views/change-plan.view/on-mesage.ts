@@ -7,10 +7,9 @@ import {
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { parseJsonResponse } from "@/common/utils/parse-json";
 import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
-import { handleActiveTabChange } from "@/client/views/change-plan.view/utils/handleActiveTabChange";
-import { handleSendMessage } from "@/client/views/change-plan.view/utils/handleSendMessage";
-import { handleStreamMessage } from "@/client/views/change-plan.view/utils/handleStreamMessage";
-import { gitCommit } from "./utils/gitCommit";
+import { handleActiveTabChange } from "@/backend/utils/handleActiveTabChange";
+import { handleSendMessage } from "@/backend/utils/handleSendMessage";
+import { handleStreamMessage } from "@/backend/utils/handleStreamMessage";
 import * as vscode from "vscode";
 
 // Function to handle messages for the change plan view
