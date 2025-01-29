@@ -1,6 +1,6 @@
 import { ReflectiveInjector } from "injection-js";
 import "reflect-metadata";
-import { CreatorService } from "./creator.service";
+import { FSService } from "./fs.service";
 import { LlmService } from "./llm.service";
 import { SettingsRepository } from "../repositories/settings.repository";
 import { ChatRepository } from "../repositories/chat.respository";
@@ -17,7 +17,7 @@ export class Services {
       ChatRepository,
       SettingsRepository,
       PersistentStoreRepository,
-      CreatorService,
+      FSService,
       LlmService,
       PlanExImService,
       LoggerService,
@@ -25,8 +25,8 @@ export class Services {
     ]);
   }
 
-  static getCreatorService(): CreatorService {
-    return Services.injector.get(CreatorService);
+  static getFSService(): FSService {
+    return Services.injector.get(FSService);
   }
 
   static getLlmService(): LlmService {

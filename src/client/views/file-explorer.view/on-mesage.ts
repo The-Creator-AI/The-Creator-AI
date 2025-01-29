@@ -1,4 +1,4 @@
-import { createFileTree, getFilesRespectingGitignore } from "@/backend/services/workspace-files.utils";
+import { Services } from "@/backend/services/services";
 import {
   ClientToServerChannel,
   ServerToClientChannel,
@@ -15,8 +15,9 @@ export function onMessage(
     async (data) => {
       const workspaceRoots =
       vscode.workspace.workspaceFolders?.map((folder) => folder.uri) || [];
-      const files = await getFilesRespectingGitignore();
-      const fileTree = createFileTree(workspaceRoots, files);
+      const fsService = Services.getFSService();
+      const files = await fsService.getFilesRespectingGitignore();
+      const fileTree = fsService.createFileTree(workspaceRoots, files);
 
       // Use the VSCode API to retrieve workspace files
       // const files = await vscode.workspace.findFiles("**/*");

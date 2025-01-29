@@ -4,7 +4,6 @@ import * as path from "path";
 import { Injectable } from "injection-js";
 import { Services } from "./services";
 import { AGENTS } from "@/common/constants/agents.constants";
-import { resolveFilePath } from "@/client/views/change-plan.view/utils/resolveFilePath";
 
 @Injectable()
 export class CodeService {
@@ -53,8 +52,9 @@ export class CodeService {
     chatHistory: any[],
     selectedFiles: string[],
     onChunk?: (path: string, chunk: string) => void
-  ) {
-    const absoluteFilePath = await resolveFilePath(filePath);
+  ) {``
+    const fsService = Services.getFSService();
+    const absoluteFilePath = await fsService.resolveFilePath(filePath);
     if (!absoluteFilePath) {
       throw new Error(`Could not resolve file path: ${filePath}`);
     }

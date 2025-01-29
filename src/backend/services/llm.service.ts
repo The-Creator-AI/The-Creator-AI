@@ -5,7 +5,6 @@ import {
 } from "@google/generative-ai";
 import * as openai from "openai";
 import * as vscode from "vscode";
-import { CreatorService } from "./creator.service";
 import { ChatMessage } from "../repositories/chat.respository";
 import { Inject, Injectable } from "injection-js";
 import { SettingsRepository } from "../repositories/settings.repository";
@@ -13,6 +12,7 @@ import { LlmServiceEnum } from "../types/llm-service.enum";
 import { PersistentStoreRepository } from "../repositories/persistent-store.repository";
 import { ChangePlan } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
 import { StorageKeysEnum } from "../types/storage-keys.enum";
+import { FSService } from "./fs.service";
 
 @Injectable()
 export class LlmService {
@@ -23,7 +23,7 @@ export class LlmService {
   private currentModel: string = this.geminiFlash2Model; 
 
   constructor(
-    @Inject(CreatorService) private readonly creatorService: CreatorService,
+    @Inject(FSService) private readonly fsService: FSService,
     @Inject(SettingsRepository)
     private readonly settingsRepository: SettingsRepository,
     @Inject(PersistentStoreRepository)
@@ -43,7 +43,7 @@ export class LlmService {
 
     // Read selected files content
     const fileContents =
-      this.creatorService.readSelectedFilesContent(selectedFiles);
+      this.fsService.readSelectedFilesContent(selectedFiles);
 
     // Append file contents to prompt
     let prompt = "";
