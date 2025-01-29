@@ -7,7 +7,7 @@ import {
 import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import { FileNode } from "@/common/types/file-node";
-import { Services } from "@/backend/services/services";
+import { getSelectedFiles } from "./getSelectedFiles";
 
 export const handleSubmitPlanRequest = (
   clientIpc: ClientPostMessageManager,
@@ -33,8 +33,7 @@ export const handleSubmitPlanRequest = (
     return;
   }
 
-  const fsService = Services.getFSService();
-  const selectedFiles = fsService.getSelectedFiles(files);
+  const selectedFiles = getSelectedFiles(files);
 
   const isUpdatingPlan =
     getChangePlanViewState("chatHistory").length && llmResponse;

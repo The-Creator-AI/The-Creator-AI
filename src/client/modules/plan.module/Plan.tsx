@@ -36,6 +36,7 @@ const Plan: React.FC = () => {
     }
   };
 
+  console.log({ files });
   return (
     <div className="plan-step flex flex-grow flex-col min-h-0">
       <div className="flex flex-grow flex-col min-h-0">{renderResponse()}</div>
@@ -44,7 +45,7 @@ const Plan: React.FC = () => {
           !!(getChangePlanViewState("chatHistory").length > 0 && llmResponse)
         }
         handleChange={setState("changeDescription")}
-        files={files}
+        files={[]}
       />
     </div>
   );

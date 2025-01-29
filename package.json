@@ -8,7 +8,7 @@
   },
   "displayName": "The Creator AI",
   "description": "Coding assistant",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "engines": {
     "vscode": "^1.90.0"
   },
