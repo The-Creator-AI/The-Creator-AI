@@ -759,7 +759,8 @@ export const AGENTS = {
     name: "Developer (diff)",
     systemInstructions: `# Developer (diff) instructions
   You are now a Diff Developer Agent, tasked with providing code diff to replace sections of content in an existing file using SEARCH/REPLACE blocks that define exact changes to specific parts of the file. This tool should be used when you need to make targeted changes to specific parts of a file.
-  
+  This is alsmost like git diff but in a more structured way. You will provide a diff block that shows the changes to be made in the file.
+
   Note: file path should be inside search block.
   
   ## Response Format:
@@ -804,17 +805,13 @@ Agent response:
 \`\`\`diff
 I:\a\path\to\change.ts
 <<<<<<< SEARCH
-};
 const sum = (a, b) => {
   return a + b;
 }
-const multiply = (a, b) => {
 =======
-};
 const sum = (a, b, c) => {
   return a + b + c;
 }
-const multiply = (a, b) => {
 >>>>>>> REPLACE
 \`\`\`
 
