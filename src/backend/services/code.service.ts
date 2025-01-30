@@ -205,6 +205,9 @@ export class CodeService {
 
     try {
       const fileContent = await fs.promises.readFile(filePath, "utf8");
+      if (!originalCode ) {
+        await fs.promises.writeFile(filePath, modifiedCode, "utf8");
+      }
 
       const whitespaceFlexibleOriginalCode = this.escapeRegExp(originalCode)
         .split("\n")
