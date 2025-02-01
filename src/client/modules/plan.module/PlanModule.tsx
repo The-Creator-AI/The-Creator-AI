@@ -1,13 +1,13 @@
-import { setChangePlanViewState as setState } from "@/client/views/change-plan.view/store/change-plan-view.logic";
-import { getChangePlanViewState } from "@/client/views/change-plan.view/store/change-plan-view.store";
+import { setChangePlanViewState as setState } from "@/client/modules/plan.module/store/change-plan-view.logic";
+import { getChangePlanViewState } from "@/client/modules/plan.module/store/change-plan-view.store";
 import { parseJsonResponse } from "@/common/utils/parse-json";
 import Markdown from "markdown-to-jsx";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import FormattedPlanPreview from "./formatted-plan-preview";
-import PlanInputBox from "./plan-input-box";
+import FormattedPlanPreview from "./components/formatted-plan-preview";
+import PlanInputBox from "./components/plan-input-box";
 
-const Plan: React.FC = () => {
+const PlanModule: React.FC = () => {
   const llmResponse = getChangePlanViewState("llmResponse");
   const [responseType, setResponseType] = useState<"json" | "markdown" | null>(
     null
@@ -49,4 +49,4 @@ const Plan: React.FC = () => {
   );
 };
 
-export default Plan;
+export default PlanModule;

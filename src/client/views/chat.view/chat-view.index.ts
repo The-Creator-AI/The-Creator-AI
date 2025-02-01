@@ -1,5 +1,5 @@
 import { VIEW_TYPES } from "@/common/view-types";
-import { onMessage } from "./on-mesage";
+import { onMessage } from "./chat-view.controller";
 
 export const viewConfig = {
   entry: "chatView.js",

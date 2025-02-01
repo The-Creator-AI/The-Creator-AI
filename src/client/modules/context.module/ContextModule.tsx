@@ -3,11 +3,11 @@ import { FileNode } from '@/common/types/file-node';
 import { ClientPostMessageManager } from '@/common/ipc/client-ipc';
 import { ClientToServerChannel, ServerToClientChannel } from '@/common/ipc/channels.enum';
 import FileTree from '@/client/components/file-tree/FileTree';
-import { handleFileClick } from '@/client/views/change-plan.view/logic/handleFileClick';
-import { setChangePlanViewState as setState } from '@/client/views/change-plan.view/store/change-plan-view.logic';
-import { getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
+import { handleFileClick } from '@/client/modules/plan.module/logic/handleFileClick';
+import { setChangePlanViewState as setState } from '@/client/modules/plan.module/store/change-plan-view.logic';
+import { getChangePlanViewState } from '@/client/modules/plan.module/store/change-plan-view.store';
 
-const Context: React.FC = () => {
+const ContextModule: React.FC = () => {
     const clientIpc = ClientPostMessageManager.getInstance();
     const selectedContext = getChangePlanViewState("selectedContext");
     const fullContext = getChangePlanViewState("context");
@@ -94,4 +94,4 @@ const Context: React.FC = () => {
         </div>
     );
 };
-export default Context;
+export default ContextModule;

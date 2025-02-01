@@ -1,6 +1,6 @@
-import { viewConfig as changePlanViewConfig } from "./change-plan.view";
-import { viewConfig as chatViewConfig } from "./chat.view";
-import { viewConfig as fileExplorerViewConfig } from "./file-explorer.view";
+import { viewConfig as changePlanViewConfig } from "./change-plan.view/change-plan-view.index";
+import { viewConfig as chatViewConfig } from "./chat.view/chat-view.index";
+import { viewConfig as fileExplorerViewConfig } from "./file-explorer.view/file-explorer-view.index";
 import * as vscode from "vscode";
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { getNonce, getViewHtml } from "@/common/utils/view-html";

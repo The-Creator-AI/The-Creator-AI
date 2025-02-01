@@ -1,4 +1,4 @@
-import { ChangePlanSteps } from "../view.constants";
+import { ChangePlanSteps } from "../../../views/change-plan.view/view.constants";
 import { ChatMessage } from "@/backend/repositories/chat.respository";
 import { FileNode } from "@/common/types/file-node";
 

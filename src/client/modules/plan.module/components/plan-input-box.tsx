@@ -4,8 +4,8 @@ import AutoResizingTextarea from '@/client/components/AutoResizingTextarea';
 import { ClientPostMessageManager } from '@/common/ipc/client-ipc';
 import { ClientToServerChannel, ServerToClientChannel } from '@/common/ipc/channels.enum';
 import { useStore } from '@/client/store/useStore';
-import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
-import { handleSubmitPlanRequest } from '../../views/change-plan.view/logic/handleSubmitPlanRequest';
+import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/modules/plan.module/store/change-plan-view.store';
+import { handleSubmitPlanRequest } from '../logic/handleSubmitPlanRequest';
 import { FileNode } from '@/common/types/file-node';
 
 interface PlanStepInputProps {

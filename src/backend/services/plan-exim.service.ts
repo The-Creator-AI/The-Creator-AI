@@ -1,8 +1,8 @@
 import { Injectable } from 'injection-js';
 import * as vscode from 'vscode';
 import { Services } from './services';
-import { ChangePlan } from '@/client/views/change-plan.view/store/change-plan-view.state-type';
-import { initialState } from '@/client/views/change-plan.view/store/change-plan-view.initial-state';
+import { ChangePlan } from '@/client/modules/plan.module/store/change-plan-view.state-type';
+import { initialState } from '@/client/modules/plan.module/store/change-plan-view.initial-state';
 
 @Injectable()
 export class PlanExImService {

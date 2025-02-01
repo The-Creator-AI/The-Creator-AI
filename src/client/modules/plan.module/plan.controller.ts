@@ -6,7 +6,7 @@ import {
 } from "@/common/ipc/channels.enum";
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { parseJsonResponse } from "@/common/utils/parse-json";
-import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { ChangePlanViewStore } from "@/client/modules/plan.module/store/change-plan-view.state-type";
 import { handleActiveTabChange } from "@/backend/utils/handleActiveTabChange";
 import * as vscode from "vscode";
 import { MessageService } from "@/backend/services/message.service";

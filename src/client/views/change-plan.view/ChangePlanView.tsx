@@ -1,9 +1,9 @@
 import ErrorBoundary from "@/client/components/ErrorBoundary";
 import { StepsConfig } from '@/client/components/ProgressSteps';
-import ApiKeyManagement from '@/client/modules/api-keys-management.module/ApiKeysManagement';
-import Commit from '@/client/modules/commit.module/Commit';
-import Context from '@/client/modules/context.module/Context';
-import Plan from '@/client/modules/plan.module/Plan';
+import ApiKeysManagementModule from '@/client/modules/api-keys-management.module/ApiKeysManagementModule';
+import CommitModule from '@/client/modules/commit.module/CommitModule';
+import ContextModule from '@/client/modules/context.module/ContextModule';
+import PlanModule from '@/client/modules/plan.module/PlanModule';
 import { useStore } from "@/client/store/useStore";
 import { Log } from "@/common/utils/firebaseLogger";
 import * as React from "react";
@@ -11,9 +11,9 @@ import { useEffect } from "react";
 import * as ReactDOM from "react-dom/client";
 import { FaSpinner } from "react-icons/fa"; // Import spinner icon
 import ProgressSteps from "../../components/ProgressSteps";
-import { setupChannelHandlers } from "./logic/setupChannelHandlers";
-import { setChangePlanViewState as setState } from "./store/change-plan-view.logic";
-import { changePlanViewStoreStateSubject } from "./store/change-plan-view.store";
+import { setupChannelHandlers } from "../../modules/plan.module/logic/setupChannelHandlers";
+import { setChangePlanViewState as setState } from "../../modules/plan.module/store/change-plan-view.logic";
+import { changePlanViewStoreStateSubject } from "../../modules/plan.module/store/change-plan-view.store";
 import { ChangePlanSteps } from "./view.constants";
 import "./view.scss";
 
@@ -24,19 +24,19 @@ const App = () => {
   const changePlanSteps: StepsConfig = {
     [ChangePlanSteps.ApiKeyManagement]: {
       indicatorText: "API Keys",
-      renderStep: () => <ApiKeyManagement />,
+      renderStep: () => <ApiKeysManagementModule />,
     },
     [ChangePlanSteps.Context]: {
       indicatorText: "Context",
-      renderStep: () => <Context />,
+      renderStep: () => <ContextModule />,
     },
     [ChangePlanSteps.Plan]: {
       indicatorText: "Plan",
-      renderStep: () => <Plan />,
+      renderStep: () => <PlanModule />,
     },
     [ChangePlanSteps.Commit]: {
       indicatorText: "Commit",
-      renderStep: () => <Commit />,
+      renderStep: () => <CommitModule />,
     },
   };
   

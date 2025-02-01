@@ -1,10 +1,10 @@
 import AutoResizingTextarea from '@/client/components/AutoResizingTextarea';
 import { useStore } from '@/client/store/useStore';
-import { commitStagedChanges } from '@/client/views/change-plan.view/logic/commitStagedChanges';
-import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/views/change-plan.view/store/change-plan-view.store';
+import { commitStagedChanges } from '@/client/modules/plan.module/logic/commitStagedChanges';
+import { changePlanViewStoreStateSubject, getChangePlanViewState } from '@/client/modules/plan.module/store/change-plan-view.store';
 import React, { useState } from 'react';
 
-const Commit: React.FC = () => {
+const CommitModule: React.FC = () => {
     const {
         chatHistory,
     } = useStore(changePlanViewStoreStateSubject);
@@ -60,4 +60,4 @@ const Commit: React.FC = () => {
     );
 };
 
-export default Commit;
+export default CommitModule;

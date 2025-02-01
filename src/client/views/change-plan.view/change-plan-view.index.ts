@@ -1,5 +1,5 @@
 import { VIEW_TYPES } from "@/common/view-types";
-import { onMessage } from "./on-mesage";
+import { onMessage } from "../../modules/plan.module/plan.controller";
 
 export const viewConfig = {
   entry: "changePlanView.js",
