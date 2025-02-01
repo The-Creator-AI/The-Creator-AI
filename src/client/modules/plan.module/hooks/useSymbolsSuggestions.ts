@@ -7,16 +7,16 @@ import {
 
 interface UseSymbolsProps {
   handleChange: (value: string) => void;
+  inputRef: React.MutableRefObject<HTMLTextAreaElement>;
 }
 
-const useSymbols = ({ handleChange }: UseSymbolsProps) => {
+const useSymbolsSuggestions = ({ handleChange, inputRef }: UseSymbolsProps) => {
   const clientIpc = ClientPostMessageManager.getInstance();
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<
     number | null
   >(null);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSuggestionAccept = (suggestion: string) => {
     handleChange(
@@ -94,4 +94,4 @@ const useSymbols = ({ handleChange }: UseSymbolsProps) => {
   };
 };
 
-export default useSymbols;
+export default useSymbolsSuggestions;

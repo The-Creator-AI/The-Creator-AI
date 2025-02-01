@@ -6,9 +6,9 @@ import { getChangePlanViewState } from "@/client/modules/plan.module/store/chang
 import { AGENTS } from "@/common/constants/agents.constants";
 import { ClientToServerChannel } from "@/common/ipc/channels.enum";
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
-import { useContext } from "../context.module/useContext";
+import { useContext } from "../../context.module/useContext";
 
-export const usePlan = () => {
+export const usePlanRequest = () => {
   const { getSelectedFiles } = useContext();
   const clientIpc = ClientPostMessageManager.getInstance();
 
