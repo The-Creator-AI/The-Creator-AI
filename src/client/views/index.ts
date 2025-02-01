@@ -4,6 +4,7 @@ import { viewConfig as fileExplorerViewConfig } from "./file-explorer.view/file-
 import * as vscode from "vscode";
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import { getNonce, getViewHtml } from "@/common/utils/view-html";
+import {commands} from '@/backend/commands/commands';
 
 export const views = [
   changePlanViewConfig,
@@ -49,5 +50,13 @@ export function registerViews(context: vscode.ExtensionContext) {
         },
       })
     );
+  });
+}
+
+export function registerCommands(context: vscode.ExtensionContext) {
+  // Iterate over the commands array to register each command
+  commands.forEach(({ commandId, callback }) => {
+    let disposable = vscode.commands.registerCommand(commandId, callback);
+    context.subscriptions.push(disposable);
   });
 }
