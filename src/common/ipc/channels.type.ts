@@ -44,16 +44,7 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
           languageId: string;
         };
       }
-    : T extends ClientToServerChannel.RequestWorkspaceFiles
-    ? {
-        // You can add options for filtering here if needed
-        // e.g., fileTypes: string[];
-      }
-    : T extends ServerToClientChannel.SendWorkspaceFiles
-    ? {
-        files: FileNode[];
-      }
-    : T extends ClientToServerChannel.RequestOpenFile
+   : T extends ClientToServerChannel.RequestOpenFile
     ? {
         filePath: string;
       }
@@ -68,7 +59,7 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
         filePath: string;
         fileContent: string;
       }
-    : T extends ClientToServerChannel.RequestStreamFileCode
+     : T extends ClientToServerChannel.RequestStreamFileCode
     ? {
         filePath: string;
         chatHistory: ChatMessage[];
@@ -79,7 +70,7 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
         filePath: string;
         chunk: string;
       }
-    : T extends ClientToServerChannel.PersistStore
+      : T extends ClientToServerChannel.PersistStore
     ? {
         storeName: string;
         storeState: any;
@@ -101,7 +92,7 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
     ? {
         suggestions: string[];
       }
-    : T extends ClientToServerChannel.CommitStagedChanges
+     : T extends ClientToServerChannel.CommitStagedChanges
     ? {
         message: string;
         description: string;
@@ -121,5 +112,14 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
     : T extends ServerToClientChannel.SendSymbols
     ? {
         symbols: any;
+      }
+    : T extends ClientToServerChannel.RequestContextData
+     ? {}
+    : T extends ServerToClientChannel.SendContextData
+    ? {
+        files: FileNode[];
+        features: any;
+        architecture: any;
+        guidelines: any;
       }
     : never;

@@ -71,8 +71,8 @@ export const commands = [
           );
           remoteSetChangePlanViewState(
             serverIpc,
-            "selectedFiles",
-            selectedPlan.plan.selectedFiles
+            "selectedContext",
+            selectedPlan.plan.selectedContext
           );
           remoteSetChangePlanViewState(
             serverIpc,

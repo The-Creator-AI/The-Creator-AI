@@ -245,7 +245,7 @@ export class FSService {
     fileSystemWatcher.onDidChange(() => this.sendWorkspaceFiles(serverIpc));
   }
 
-  async handleWorkspaceFilesRequest(serverIpc: ServerPostMessageManager) {
+  async handleContextRequest(serverIpc: ServerPostMessageManager) {
     await this.sendWorkspaceFiles(serverIpc);
 
     // Set up file system watcher if not already set
@@ -259,8 +259,11 @@ export class FSService {
     const files = await fsService.getFilesRespectingGitignore();
     const workspaceFileTree = fsService.createFileTree(workspaceRoots, files);
 
-    serverIpc.sendToClient(ServerToClientChannel.SendWorkspaceFiles, {
+    serverIpc.sendToClient(ServerToClientChannel.SendContextData, {
       files: workspaceFileTree,
+      architecture: [],
+      features: [],
+      guidelines: [],
     });
   }
 

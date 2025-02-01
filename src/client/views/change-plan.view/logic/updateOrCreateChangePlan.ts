@@ -27,7 +27,7 @@ export const updateOrCreateChangePlan = (llmResponse: string) => {
         llmResponse,
         planJson,
         chatHistory: getChangePlanViewState("chatHistory"),
-        selectedFiles: getChangePlanViewState("selectedFiles"),
+        selectedFiles: getChangePlanViewState("selectedContext").files,
         lastUpdatedAt: Date.now(),
       };
     } else {
@@ -38,7 +38,7 @@ export const updateOrCreateChangePlan = (llmResponse: string) => {
         llmResponse,
         planJson,
         chatHistory: getChangePlanViewState("chatHistory"),
-        selectedFiles: getChangePlanViewState("selectedFiles"),
+        selectedFiles: getChangePlanViewState("selectedContext").files,
         lastUpdatedAt: Date.now(),
       });
     }

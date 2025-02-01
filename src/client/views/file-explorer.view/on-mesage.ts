@@ -11,7 +11,7 @@ export function onMessage(
   serverIpc: ServerPostMessageManager
 ) {onMessage
   serverIpc.onClientMessage(
-    ClientToServerChannel.RequestWorkspaceFiles,
+    ClientToServerChannel.RequestContextData,
     async (data) => {
       const workspaceRoots =
       vscode.workspace.workspaceFolders?.map((folder) => folder.uri) || [];
@@ -35,13 +35,16 @@ export function onMessage(
       //   formattedFiles.map((file) => file.type)
       // );
       // Send the files back to the client
-      serverIpc.sendToClient(ServerToClientChannel.SendWorkspaceFiles, {
+      serverIpc.sendToClient(ServerToClientChannel.SendContextData, {
         // files: formattedFiles.map((file, index) => ({
         //   ...file,
         //   // type: fileTypes[index],
         //   type: 'file'
         // })),
-        files: fileTree
+        files: fileTree,
+        architecture: [],
+        features: [],
+        guidelines: [],
       });
     }
   );
