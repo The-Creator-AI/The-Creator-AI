@@ -7,7 +7,7 @@ import {
 import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 
 // Function to handle messages for the chat view
-export async function onMessage(serverIpc: ServerPostMessageManager) {
+export async function controller(serverIpc: ServerPostMessageManager) {
   serverIpc?.onClientMessage(
     ClientToServerChannel.SendMessage,
     async (data) => {

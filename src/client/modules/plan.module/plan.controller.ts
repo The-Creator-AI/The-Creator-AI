@@ -9,12 +9,12 @@ import { parseJsonResponse } from "@/common/utils/parse-json";
 import { ChangePlanViewStore } from "@/client/modules/plan.module/store/change-plan-view.state-type";
 import { handleActiveTabChange } from "@/backend/utils/handleActiveTabChange";
 import * as vscode from "vscode";
-import { MessageService } from "@/backend/services/message.service";
 
 // Function to handle messages for the change plan view
-export function onMessage(serverIpc: ServerPostMessageManager) {
+export function controller(serverIpc: ServerPostMessageManager) {
   const fsService = Services.getFSService();
   const messageService = Services.getMessageService();
+
   serverIpc.onClientMessage(ClientToServerChannel.RequestContextData, async () => {
     const workspaceRoots =
       vscode.workspace.workspaceFolders?.map((folder) => folder.uri) || [];
@@ -46,36 +46,6 @@ export function onMessage(serverIpc: ServerPostMessageManager) {
       guidelines,
     });
   });
-
-  serverIpc.onClientMessage(
-    ClientToServerChannel.RequestFileCode,
-    async (data) => {
-      const res = await Services.getCodeService().requestFileCode(
-        data.filePath,
-        data.chatHistory,
-        data.selectedFiles
-      );
-      serverIpc.sendToClient(ServerToClientChannel.SendFileCode, res);
-    }
-  );
-
-  serverIpc.onClientMessage(
-    ClientToServerChannel.RequestStreamFileCode,
-    async (data) => {
-      const res = await Services.getCodeService().requestFileCode(
-        data.filePath,
-        data.chatHistory,
-        data.selectedFiles,
-        (filePath, chunk) => {
-          serverIpc.sendToClient(ServerToClientChannel.StreamFileCode, {
-            filePath,
-            chunk,
-          });
-        }
-      );
-      serverIpc.sendToClient(ServerToClientChannel.SendFileCode, res);
-    }
-  );
 
   serverIpc.onClientMessage(ClientToServerChannel.SendMessage, (data) =>
       messageService.sendMessage(serverIpc, data)

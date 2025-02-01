@@ -7,14 +7,12 @@ import { ServerPostMessageManager } from "@/common/ipc/server-ipc";
 import * as vscode from "vscode";
 
 // Function to handle messages for the file explorer view
-export function onMessage(
-  serverIpc: ServerPostMessageManager
-) {onMessage
+export function controller(serverIpc: ServerPostMessageManager) {
   serverIpc.onClientMessage(
     ClientToServerChannel.RequestContextData,
     async (data) => {
       const workspaceRoots =
-      vscode.workspace.workspaceFolders?.map((folder) => folder.uri) || [];
+        vscode.workspace.workspaceFolders?.map((folder) => folder.uri) || [];
       const fsService = Services.getFSService();
       const files = await fsService.getFilesRespectingGitignore();
       const fileTree = fsService.createFileTree(workspaceRoots, files);

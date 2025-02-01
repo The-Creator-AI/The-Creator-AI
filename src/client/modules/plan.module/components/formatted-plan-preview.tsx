@@ -1,12 +1,11 @@
-import { ClientToServerChannel, ServerToClientChannel } from "@/common/ipc/channels.enum";
-import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
+import { changePlanViewStoreStateSubject } from "@/client/modules/plan.module/store/change-plan-view.store";
 import { useStore } from "@/client/store/useStore";
-import { setChangePlanViewState } from "@/client/modules/plan.module/store/change-plan-view.logic";
-import { changePlanViewStoreStateSubject, getChangePlanViewState } from "@/client/modules/plan.module/store/change-plan-view.store";
+import { ClientToServerChannel } from "@/common/ipc/channels.enum";
+import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { MdFileDownload } from "react-icons/md";
-import FileCard from "./file-card"; // Import the new FileCard component
+import FileCard from "./file-card";
+import GetCode from "../modules/code.module/GetCode";
 
 interface FormattedPlanPreviewProps {
   jsonData: any;
@@ -18,60 +17,6 @@ const FormattedPlanPreview: React.FC<FormattedPlanPreviewProps> = ({
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const { activeTab } = useStore(changePlanViewStoreStateSubject);
   const clientIpc = ClientPostMessageManager.getInstance();
-  const chatHistory = getChangePlanViewState("chatHistory");
-  const selectedContext = getChangePlanViewState("selectedContext");
-  const [loadingFile, setLoadingFile] = useState<string | null>(null);
-  const { fileChunkMap } = useStore(changePlanViewStoreStateSubject);
-
-  useEffect(() => {
-    clientIpc.onServerMessage(ServerToClientChannel.StreamFileCode, (data) => {
-      const { filePath, chunk } = data;
-      console.log({ filePath, chunk });
-      const fileChunkMap = getChangePlanViewState("fileChunkMap");
-      const localFilePath = Object.keys(fileChunkMap).find(
-        (key) => key.includes(filePath) || filePath.includes(key)
-      );
-
-      if (!fileChunkMap[localFilePath]?.isLoading) {
-        return;
-      }
-
-      const updatedFileChunkMap = {
-        ...fileChunkMap,
-        [localFilePath]: {
-          ...fileChunkMap[localFilePath],
-          fileContent: (fileChunkMap[localFilePath]?.fileContent || "") + chunk,
-        },
-      };
-      setChangePlanViewState("fileChunkMap")(updatedFileChunkMap);
-    });
-
-    clientIpc.onServerMessage(ServerToClientChannel.SendFileCode, (data) => {
-      const { filePath, fileContent } = data;
-      console.log({ filePath, fileContent });
-      const fileChunkMap = getChangePlanViewState("fileChunkMap");
-      const localFilePath = Object.keys(fileChunkMap).find(
-        (key) => key.includes(filePath) || filePath.includes(key)
-      );
-      const updatedFileChunkMap = {
-        ...fileChunkMap,
-        [localFilePath]: {
-          ...fileChunkMap[localFilePath],
-          fileContent,
-          isLoading: false,
-        },
-      };
-      setChangePlanViewState("fileChunkMap")(updatedFileChunkMap);
-      setLoadingFile(null);
-    });
-  }, []);
-
-  const handleHeaderClick = (index: number) => {
-    setCurrentFileIndex(index);
-    clientIpc.sendToServer(ClientToServerChannel.RequestOpenFile, {
-      filePath: jsonData.code_plan[index]?.filename,
-    });
-  };
 
   useEffect(() => {
     const matchingCardIndex = jsonData.code_plan.findIndex(
@@ -83,22 +28,11 @@ const FormattedPlanPreview: React.FC<FormattedPlanPreviewProps> = ({
     }
   }, [activeTab, jsonData.code_plan]);
 
-  const handleRequestFileCode = (filePath: string) => {
-    const fileChunkMap = getChangePlanViewState("fileChunkMap");
-    const updatedFileChunkMap = {
-      ...fileChunkMap,
-      [filePath]: {
-        isLoading: true,
-        fileContent: "",
-      },
-    };
-    setChangePlanViewState("fileChunkMap")(updatedFileChunkMap);
-    clientIpc.sendToServer(ClientToServerChannel.RequestStreamFileCode, {
-      filePath,
-      chatHistory,
-      selectedFiles: selectedContext.files,
+  const handleHeaderClick = (index: number) => {
+    setCurrentFileIndex(index);
+    clientIpc.sendToServer(ClientToServerChannel.RequestOpenFile, {
+      filePath: jsonData.code_plan[index]?.filename,
     });
-    setLoadingFile(filePath);
   };
 
   return jsonData ? (
@@ -106,9 +40,7 @@ const FormattedPlanPreview: React.FC<FormattedPlanPreviewProps> = ({
       <h3 className="flex justify-center text-xs font-bold mb-2 px-4 text-center">
         {jsonData.title}
       </h3>
-      <p
-        className="flex justify-center text-gray-700 px-4 text-center"
-      >
+      <p className="flex justify-center text-gray-700 px-4 text-center">
         {jsonData.description}
       </p>
       {/* Pagination Dots */}
@@ -125,24 +57,7 @@ const FormattedPlanPreview: React.FC<FormattedPlanPreviewProps> = ({
                 <span className="whitespace-nowrap overflow-hidden text-ellipsis">
                   {item.filename?.split("/").pop() || ""}
                 </span>
-                {!fileChunkMap[item.filename]?.isLoading ? (
-                  <MdFileDownload
-                    size={18}
-                    className={`ml-2 cursor-pointer text-blue-500`}
-                    onClick={() => handleRequestFileCode(item.filename)}
-                  />
-                ) : null}
-                {fileChunkMap[item.filename]?.isLoading && (
-                  <span className="loader mr-2">
-                    <div className="spinner w-4 h-4 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin ml-2"></div>
-                  </span>
-                )}
-                {fileChunkMap[item.filename]?.isLoading &&
-                fileChunkMap[item.filename]?.fileContent?.length ? (
-                  <span className="text-xs text-gray-500 whitespace-nowrap overflow-x-auto">
-                    ({fileChunkMap[item.filename]?.fileContent?.length} ++)
-                  </span>
-                ) : null}
+                <GetCode filePath={item.filename} />
               </div>
             </button>
           </div>

@@ -21,44 +21,6 @@ const FileCard: React.FC<FileCardProps> = ({ fileName, operation, recommendation
     const clientIpc = ClientPostMessageManager.getInstance();
     const isLoading = fileChunkMap[filePath]?.isLoading;
 
-    React.useEffect(() => {
-        clientIpc.onServerMessage(ServerToClientChannel.StreamFileCode, (data) => {
-            const { filePath, chunk } = data;
-            console.log({ filePath, chunk });
-            const fileChunkMap = getChangePlanViewState('fileChunkMap');
-            const localFilePath = Object.keys(fileChunkMap).find((key) => key.includes(filePath) || filePath.includes(key));
-
-            if (!fileChunkMap[localFilePath]?.isLoading) {
-                return;
-            }
-
-            const updatedFileChunkMap = {
-                ...fileChunkMap,
-                [localFilePath]: {
-                    ...fileChunkMap[localFilePath],
-                    fileContent: (fileChunkMap[localFilePath]?.fileContent || '') + chunk
-                }
-            };
-            setChangePlanViewState('fileChunkMap')(updatedFileChunkMap);
-        });
-
-        clientIpc.onServerMessage(ServerToClientChannel.SendFileCode, (data) => {
-            const { filePath, fileContent } = data;
-            console.log({ filePath, fileContent });
-            const fileChunkMap = getChangePlanViewState('fileChunkMap');
-            const localFilePath = Object.keys(fileChunkMap).find((key) => key.includes(filePath) || filePath.includes(key));
-            const updatedFileChunkMap = {
-                ...fileChunkMap,
-                [localFilePath]: {
-                    ...fileChunkMap[localFilePath],
-                    fileContent,
-                    isLoading: false
-                }
-            };
-            setChangePlanViewState('fileChunkMap')(updatedFileChunkMap);
-        });
-    }, []);
-
     const handleRequestOpenFile = (filePath: string) => {
         clientIpc.sendToServer(ClientToServerChannel.RequestOpenFile, {
             filePath

@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 import { Injectable } from "injection-js";
-import { Services } from "./services";
+import { Services } from "../../../../../backend/services/services";
 import { AGENTS } from "@/common/constants/agents.constants";
 
 @Injectable()
@@ -282,7 +282,6 @@ export class CodeService {
     selectedFiles: string[],
     onChunk?: (path: string, chunk: string) => void
   ) {
-    ``;
     const fsService = Services.getFSService();
     const absoluteFilePath = await fsService.resolveFilePath(filePath);
     if (!absoluteFilePath) {

@@ -4,6 +4,7 @@ import { ChatMessage } from "@/backend/repositories/chat.respository";
 import { KeyPaths, KeyPathValue } from "@/common/utils/key-path";
 import { ChangePlanViewStore } from "@/client/modules/plan.module/store/change-plan-view.state-type";
 import { LlmServiceEnum } from "@/backend/types/llm-service.enum";
+import {RequestFileCodeDTO, RequestStreamFileCodeDTO, SendFileCodeDTO} from '@/client/modules/plan.module/modules/code.module/code.dto';
 
 export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel> =
   T extends ClientToServerChannel.SendMessage
@@ -49,22 +50,11 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
         filePath: string;
       }
     : T extends ClientToServerChannel.RequestFileCode
-    ? {
-        filePath: string;
-        chatHistory: ChatMessage[];
-        selectedFiles: string[];
-      }
+    ? RequestFileCodeDTO
     : T extends ServerToClientChannel.SendFileCode
-    ? {
-        filePath: string;
-        fileContent: string;
-      }
+    ? SendFileCodeDTO
      : T extends ClientToServerChannel.RequestStreamFileCode
-    ? {
-        filePath: string;
-        chatHistory: ChatMessage[];
-        selectedFiles: string[];
-      }
+    ? RequestStreamFileCodeDTO
     : T extends ServerToClientChannel.StreamFileCode
     ? {
         filePath: string;

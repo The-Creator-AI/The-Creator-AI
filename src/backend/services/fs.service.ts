@@ -176,6 +176,10 @@ export class FSService {
           "The file is not found. Please confirm or modify the file path to create an empty file.",
         value: originalFilePath,
       });
+      if (!newFilePath) {
+        return null;
+      }
+
       const isAbsolute = path.isAbsolute(newFilePath);
       newFilePath = isAbsolute
         ? newFilePath
