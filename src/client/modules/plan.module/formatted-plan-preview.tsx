@@ -19,7 +19,7 @@ const FormattedPlanPreview: React.FC<FormattedPlanPreviewProps> = ({
   const { activeTab } = useStore(changePlanViewStoreStateSubject);
   const clientIpc = ClientPostMessageManager.getInstance();
   const chatHistory = getChangePlanViewState("chatHistory");
-  const selectedFiles = getChangePlanViewState("selectedFiles");
+  const selectedContext = getChangePlanViewState("selectedContext");
   const [loadingFile, setLoadingFile] = useState<string | null>(null);
   const { fileChunkMap } = useStore(changePlanViewStoreStateSubject);
 
@@ -96,7 +96,7 @@ const FormattedPlanPreview: React.FC<FormattedPlanPreviewProps> = ({
     clientIpc.sendToServer(ClientToServerChannel.RequestStreamFileCode, {
       filePath,
       chatHistory,
-      selectedFiles,
+      selectedFiles: selectedContext.files,
     });
     setLoadingFile(filePath);
   };

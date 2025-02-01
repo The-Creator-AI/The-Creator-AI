@@ -8,7 +8,12 @@ export interface ChangePlan {
   llmResponse: string;
   planJson: any;
   chatHistory: ChatMessage[];
-  selectedFiles: string[];
+  selectedContext: {
+    files: string[];
+    features: any;
+    architecture: any;
+    guidelines: any;
+  }
   lastUpdatedAt: number;
 }
 
@@ -17,7 +22,6 @@ export interface ChangePlanViewStore {
   isLoading: boolean;
   llmResponse: string;
   currentStep: ChangePlanSteps;
-  selectedFiles: string[];
   chatHistory: ChatMessage[];
   activeTab: string | undefined;
   changePlans: ChangePlan[];
@@ -28,7 +32,18 @@ export interface ChangePlanViewStore {
       fileContent: string;
     }
   >;
+  context: {
     files: FileNode[];
+    features: any;
+    architecture: any;
+    guidelines: any;
+  };
+  selectedContext: {
+    files: string[];
+    features: any;
+    architecture: any;
+    guidelines: any;
+  };
   commitSuggestionsLoading: boolean;
   commitSuggestions: string[];
 }

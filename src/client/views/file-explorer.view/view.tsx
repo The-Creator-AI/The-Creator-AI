@@ -17,10 +17,10 @@ const App = () => {
 
     useEffect(() => {
         // Request workspace files on component mount
-        clientIpc.sendToServer(ClientToServerChannel.RequestWorkspaceFiles, {});
+        clientIpc.sendToServer(ClientToServerChannel.RequestContextData, {});
 
         // Listen for workspace files response
-        clientIpc.onServerMessage(ServerToClientChannel.SendWorkspaceFiles, ({ files }) => {
+        clientIpc.onServerMessage(ServerToClientChannel.SendContextData, ({ files }) => {
             setFiles(files);
         });
     }, []);

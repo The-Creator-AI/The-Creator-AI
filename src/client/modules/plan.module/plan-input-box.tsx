@@ -15,7 +15,7 @@ interface PlanStepInputProps {
 }
 
 const PlanInputBox: React.FC<PlanStepInputProps> = ({ isUpdateRequest, handleChange, files }) => {
-    const { selectedFiles } = useStore(changePlanViewStoreStateSubject);
+    const { selectedContext } = useStore(changePlanViewStoreStateSubject);
     const [suggestions, setSuggestions] = React.useState<string[]>([]);
     const [selectedSuggestionIndex, setSelectedSuggestionIndex] = React.useState<number | null>(null);
     const [showSuggestions, setShowSuggestions] = React.useState(false);
@@ -76,7 +76,7 @@ const PlanInputBox: React.FC<PlanStepInputProps> = ({ isUpdateRequest, handleCha
         const timeoutId = setTimeout(fetchSuggestions, 300); // Adjust delay as needed
 
         return () => clearTimeout(timeoutId);
-    }, [changeDescription, selectedFiles]);
+    }, [changeDescription, selectedContext.files]);
 
     React.useEffect(() => {
         clientIpc.onServerMessage(ServerToClientChannel.SendSymbols, (message) => {

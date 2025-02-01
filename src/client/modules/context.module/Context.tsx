@@ -9,29 +9,35 @@ import { getChangePlanViewState } from '@/client/views/change-plan.view/store/ch
 
 const Context: React.FC = () => {
     const clientIpc = ClientPostMessageManager.getInstance();
-    const selectedFiles = getChangePlanViewState("selectedFiles");
-    const files = getChangePlanViewState("files");
+    const selectedContext = getChangePlanViewState("selectedContext");
+    const fullContext = getChangePlanViewState("context");
     const [recentFiles, setRecentFiles] = useState<string[]>([]);
     const [activeFile, setActiveFile] = useState<string>();
-    const [activeContext, setActiveContext] = useState<'code' | 'features' | 'architecture' | 'guidelines'>('code');
+      const [activeContext, setActiveContext] = useState<'code' | 'features' | 'architecture' | 'guidelines'>('code');
+
     useEffect(() => {
-        const handleSendWorkspaceFiles = ({ files }: { files: FileNode[] }) => {
-            setState("files")(files);
+        const handleSendContextData = ({ files, features, architecture, guidelines }: { files: FileNode[], features: any, architecture: any, guidelines: any }) => {
+            setState("context")({
+                files,
+                features,
+                architecture,
+                guidelines,
+            });
         };
         clientIpc.onServerMessage(
-            ServerToClientChannel.SendWorkspaceFiles,
-            handleSendWorkspaceFiles
+            ServerToClientChannel.SendContextData,
+            handleSendContextData
         );
     
-            // Request workspace files on component mount
-            clientIpc.sendToServer(ClientToServerChannel.RequestWorkspaceFiles, {});
-    
-    
+        // Request workspace files on component mount
+        clientIpc.sendToServer(ClientToServerChannel.RequestContextData, {});
     }, []);
-    
-    const handleContextChange = (context: 'code' | 'features' | 'architecture' | 'guidelines') => {
+
+     const handleContextChange = (context: 'code' | 'features' | 'architecture' | 'guidelines') => {
         setActiveContext(context);
-    };    return (
+    };
+
+    return (
         <div className="p-4 overflow-y-auto overflow-x-hidden">
             <div className='flex mb-4'>
                 <button 
@@ -60,7 +66,7 @@ const Context: React.FC = () => {
                   </button>
             </div>
              {/* Render FileTree for each root node */}
-             {activeContext === 'code' && files.map((rootNode, index) => (
+             {activeContext === 'code' && fullContext.files.map((rootNode, index) => (
                 <FileTree
                     key={index}
                     data={[rootNode]}
@@ -69,15 +75,20 @@ const Context: React.FC = () => {
                     filePath,
                     setActiveFile,
                 })}
-                selectedFiles={selectedFiles}
+                selectedFiles={selectedContext.files}
                 recentFiles={recentFiles}
                 activeFile={activeFile}
-                updateSelectedFiles={(files) => setState("selectedFiles")(files)}
+                updateSelectedFiles={(files) => setState("selectedContext")({
+                    files,
+                    architecture: selectedContext.architecture,
+                    features: selectedContext.features,
+                    guidelines: selectedContext.guidelines,
+                })}
                 updateRecentFiles={setRecentFiles}
             />
              ))}
         {activeContext !== 'code' && <div className="text-gray-500"> {activeContext} Tree View is under development. </div>}
-            {!files.length && (
+            {!fullContext.length && (
                 <div className="text-gray-500">Loading files...</div>
             )}
         </div>

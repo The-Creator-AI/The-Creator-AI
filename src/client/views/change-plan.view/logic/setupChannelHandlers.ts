@@ -36,8 +36,8 @@ export const setupChannelHandlers = () => {
     setState("llmResponse")(getChangePlanViewState("llmResponse") + chunk);
   };
 
-  const handleSendWorkspaceFiles = ({ files }: { files: FileNode[] }) => {
-     setState("files")(files);
+  const handleSendWorkspaceFiles = (context) => {
+     setState("context")(context);
   };
 
   const handleSendFileCode = ({
@@ -77,11 +77,11 @@ export const setupChannelHandlers = () => {
   );
 
   // Request workspace files on component mount
-  clientIpc.sendToServer(ClientToServerChannel.RequestWorkspaceFiles, {});
+  clientIpc.sendToServer(ClientToServerChannel.RequestContextData, {});
 
   // Listen for workspace files response
   clientIpc.onServerMessage(
-    ServerToClientChannel.SendWorkspaceFiles,
+    ServerToClientChannel.SendContextData,
     handleSendWorkspaceFiles
   );
 

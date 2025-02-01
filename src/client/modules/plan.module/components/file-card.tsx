@@ -19,10 +19,7 @@ interface FileCardProps {
 const FileCard: React.FC<FileCardProps> = ({ fileName, operation, recommendations, filePath }) => {
     const { fileChunkMap } = useStore(changePlanViewStoreStateSubject);
     const clientIpc = ClientPostMessageManager.getInstance();
-    const chatHistory = getChangePlanViewState('chatHistory');
-    const selectedFiles = getChangePlanViewState('selectedFiles');
     const isLoading = fileChunkMap[filePath]?.isLoading;
-    const fileContent = fileChunkMap[filePath]?.fileContent;
 
     React.useEffect(() => {
         clientIpc.onServerMessage(ServerToClientChannel.StreamFileCode, (data) => {

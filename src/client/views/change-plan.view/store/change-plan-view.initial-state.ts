@@ -6,12 +6,22 @@ export const initialState: ChangePlanViewStore = {
   isLoading: false,
   llmResponse: "",
   currentStep: ChangePlanSteps.Plan,
-  selectedFiles: [],
   chatHistory: [],
   activeTab: undefined,
   changePlans: [],
   commitSuggestions: [],
   commitSuggestionsLoading: false,
   fileChunkMap: {},
-  files: [],
+  context: {
+    files: [],
+    features: [],
+    architecture: [],
+    guidelines: [],
+  },
+  selectedContext: {
+    files: [],
+    features: [],
+    architecture: [],
+    guidelines: [],
+  }
 };

@@ -9,7 +9,6 @@ import PlanInputBox from "./plan-input-box";
 
 const Plan: React.FC = () => {
   const llmResponse = getChangePlanViewState("llmResponse");
-  const files = getChangePlanViewState("files");
   const [responseType, setResponseType] = useState<"json" | "markdown" | null>(
     null
   );
@@ -36,7 +35,6 @@ const Plan: React.FC = () => {
     }
   };
 
-  console.log({ files });
   return (
     <div className="plan-step flex flex-grow flex-col min-h-0">
       <div className="flex flex-grow flex-col min-h-0">{renderResponse()}</div>

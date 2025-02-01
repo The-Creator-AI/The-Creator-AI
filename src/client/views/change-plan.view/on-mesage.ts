@@ -15,9 +15,37 @@ import { MessageService } from "@/backend/services/message.service";
 export function onMessage(serverIpc: ServerPostMessageManager) {
   const fsService = Services.getFSService();
   const messageService = Services.getMessageService();
-  serverIpc.onClientMessage(ClientToServerChannel.RequestWorkspaceFiles, () =>
-    fsService.handleWorkspaceFilesRequest(serverIpc)
-  );
+  serverIpc.onClientMessage(ClientToServerChannel.RequestContextData, async () => {
+    const workspaceRoots =
+      vscode.workspace.workspaceFolders?.map((folder) => folder.uri) || [];
+    const files = await fsService.getFilesRespectingGitignore();
+    const fileTree = fsService.createFileTree(workspaceRoots, files);
+    const defaultJson = { name: "root", children: [] };
+
+    // Read and parse JSON files or create with default structure if they don't exist
+    const readOrCreateJson = async (filePath: string) => {
+      const absoluteFilePath = await fsService.resolveFilePath(filePath);
+      if (!absoluteFilePath) {
+        return defaultJson;
+      }
+      try {
+        const fileContent = fsService.readFileContent(absoluteFilePath);
+        return JSON.parse(fileContent || JSON.stringify(defaultJson));
+      } catch (e) {
+        return defaultJson;
+      }
+    };
+    const features = await readOrCreateJson(".docs/features.json");
+    const architecture = await readOrCreateJson(".docs/architecture.json");
+    const guidelines = await readOrCreateJson(".docs/guidelines.json");
+
+    serverIpc.sendToClient(ServerToClientChannel.SendContextData, {
+      files: fileTree,
+      features,
+      architecture,
+      guidelines,
+    });
+  });
 
   serverIpc.onClientMessage(
     ClientToServerChannel.RequestFileCode,
