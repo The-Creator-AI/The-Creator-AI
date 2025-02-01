@@ -1,8 +1,8 @@
 import { getChangePlanViewState } from "@/client/modules/plan.module/store/change-plan-view.store";
 import { FileNode } from "@/common/types/file-node";
 
-export const useContext = () => {
-  const getSelectedFiles = () => {
+export const useSelectedFiles = () => {
+  const getAbsoluteSelectedFilePaths = () => {
     const { files: selectedFiles } = getChangePlanViewState("selectedContext");
     const { files } = getChangePlanViewState("context");
     // Create an array to store absolute paths of selected files
@@ -38,6 +38,6 @@ export const useContext = () => {
   };
 
   return {
-    getSelectedFiles,
+    getAbsoluteSelectedFilePaths,
   };
 };

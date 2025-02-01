@@ -6,10 +6,10 @@ import { getChangePlanViewState } from "@/client/modules/plan.module/store/chang
 import { AGENTS } from "@/common/constants/agents.constants";
 import { ClientToServerChannel } from "@/common/ipc/channels.enum";
 import { ClientPostMessageManager } from "@/common/ipc/client-ipc";
-import { useContext } from "../../context.module/useContext";
+import { useSelectedFiles } from "../../context.module/useSelectedFiles";
 
 export const usePlanRequest = () => {
-  const { getSelectedFiles } = useContext();
+  const { getAbsoluteSelectedFilePaths } = useSelectedFiles();
   const clientIpc = ClientPostMessageManager.getInstance();
 
   const handleSubmitPlanRequest = (
@@ -34,7 +34,7 @@ export const usePlanRequest = () => {
       return;
     }
 
-    const selectedFiles = getSelectedFiles();
+    const selectedFiles = getAbsoluteSelectedFilePaths();
 
     const isUpdatingPlan =
       getChangePlanViewState("chatHistory").length && llmResponse;
