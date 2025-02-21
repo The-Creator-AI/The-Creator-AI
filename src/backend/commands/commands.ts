@@ -1,4 +1,4 @@
-import { ChangePlan } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { ChangePlan } from "@/client/modules/plan.module/store/change-plan-view.state-type";
 import { remoteSetChangePlanViewState } from "@/backend/utils/remoteSetChangePlanViewState";
 import { VIEW_TYPES } from "@/common/view-types";
 import * as vscode from "vscode";
@@ -71,8 +71,8 @@ export const commands = [
           );
           remoteSetChangePlanViewState(
             serverIpc,
-            "selectedFiles",
-            selectedPlan.plan.selectedFiles
+            "selectedContext",
+            selectedPlan.plan.selectedContext
           );
           remoteSetChangePlanViewState(
             serverIpc,

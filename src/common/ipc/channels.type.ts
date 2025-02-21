@@ -2,8 +2,9 @@ import { FileNode } from "@/common/types/file-node";
 import { ClientToServerChannel, ServerToClientChannel } from "./channels.enum";
 import { ChatMessage } from "@/backend/repositories/chat.respository";
 import { KeyPaths, KeyPathValue } from "@/common/utils/key-path";
-import { ChangePlanViewStore } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { ChangePlanViewStore } from "@/client/modules/plan.module/store/change-plan-view.state-type";
 import { LlmServiceEnum } from "@/backend/types/llm-service.enum";
+import {RequestFileCodeDTO, RequestStreamFileCodeDTO, SendFileCodeDTO} from '@/client/modules/plan.module/modules/code.module/code.dto';
 
 export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel> =
   T extends ClientToServerChannel.SendMessage
@@ -44,42 +45,22 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
           languageId: string;
         };
       }
-    : T extends ClientToServerChannel.RequestWorkspaceFiles
-    ? {
-        // You can add options for filtering here if needed
-        // e.g., fileTypes: string[];
-      }
-    : T extends ServerToClientChannel.SendWorkspaceFiles
-    ? {
-        files: FileNode[];
-      }
-    : T extends ClientToServerChannel.RequestOpenFile
+   : T extends ClientToServerChannel.RequestOpenFile
     ? {
         filePath: string;
       }
     : T extends ClientToServerChannel.RequestFileCode
-    ? {
-        filePath: string;
-        chatHistory: ChatMessage[];
-        selectedFiles: string[];
-      }
+    ? RequestFileCodeDTO
     : T extends ServerToClientChannel.SendFileCode
-    ? {
-        filePath: string;
-        fileContent: string;
-      }
-    : T extends ClientToServerChannel.RequestStreamFileCode
-    ? {
-        filePath: string;
-        chatHistory: ChatMessage[];
-        selectedFiles: string[];
-      }
+    ? SendFileCodeDTO
+     : T extends ClientToServerChannel.RequestStreamFileCode
+    ? RequestStreamFileCodeDTO
     : T extends ServerToClientChannel.StreamFileCode
     ? {
         filePath: string;
         chunk: string;
       }
-    : T extends ClientToServerChannel.PersistStore
+      : T extends ClientToServerChannel.PersistStore
     ? {
         storeName: string;
         storeState: any;
@@ -101,7 +82,7 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
     ? {
         suggestions: string[];
       }
-    : T extends ClientToServerChannel.CommitStagedChanges
+     : T extends ClientToServerChannel.CommitStagedChanges
     ? {
         message: string;
         description: string;
@@ -121,5 +102,14 @@ export type ChannelBody<T extends ClientToServerChannel | ServerToClientChannel>
     : T extends ServerToClientChannel.SendSymbols
     ? {
         symbols: any;
+      }
+    : T extends ClientToServerChannel.RequestContextData
+     ? {}
+    : T extends ServerToClientChannel.SendContextData
+    ? {
+        files: FileNode[];
+        features: any;
+        architecture: any;
+        guidelines: any;
       }
     : never;

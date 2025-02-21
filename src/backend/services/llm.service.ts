@@ -10,7 +10,7 @@ import { Inject, Injectable } from "injection-js";
 import { SettingsRepository } from "../repositories/settings.repository";
 import { LlmServiceEnum } from "../types/llm-service.enum";
 import { PersistentStoreRepository } from "../repositories/persistent-store.repository";
-import { ChangePlan } from "@/client/views/change-plan.view/store/change-plan-view.state-type";
+import { ChangePlan } from "@/client/modules/plan.module/store/change-plan-view.state-type";
 import { StorageKeysEnum } from "../types/storage-keys.enum";
 import { FSService } from "./fs.service";
 

@@ -7,9 +7,9 @@ import { ChatRepository } from "../repositories/chat.respository";
 import { PersistentStoreRepository } from "../repositories/persistent-store.repository";
 import { LoggerService } from "./logger.service";
 import { PlanExImService } from "./plan-exim.service";
-import { CodeService } from "./code.service";
 import { GitService } from "./git.service";
 import { MessageService } from "./message.service";
+import { moduleConfig } from "@/client/modules/plan.module/plan.module";
 
 export class Services {
   static injector: ReflectiveInjector;
@@ -23,10 +23,14 @@ export class Services {
       LlmService,
       PlanExImService,
       LoggerService,
-      CodeService,
       GitService,
       MessageService,
+      ...moduleConfig.services,
     ]);
+  }
+
+  static getService<T>(service: { new (): T }): T {
+    return Services.injector.get(service);
   }
 
   static getFSService(): FSService {
@@ -49,19 +53,15 @@ export class Services {
     return Services.injector.get(PlanExImService);
   }
 
-   static getCodeService(): CodeService {
-    return Services.injector.get(CodeService);
-  }
-
   static getLoggerService(): LoggerService {
     return Services.injector.get(LoggerService);
   }
 
-   static getGitService(): GitService {
+  static getGitService(): GitService {
     return Services.injector.get(GitService);
   }
 
-    static getMessageService(): MessageService {
+  static getMessageService(): MessageService {
     return Services.injector.get(MessageService);
   }
 }
